@@ -26,10 +26,15 @@ export class PrettierRcRepository {
 
   async save() {
     const stringifyJson = String(this.option) + '\n';
-    try {
+    const isPrettierRcExist = await isFileExists('./prettierrc');
+
+    // ファイルが存在しなければ writeFile で生成
+    if (!isPrettierRcExist) {
       await fs.writeFile('.prettierrc', stringifyJson);
-    } catch (_) {
-      console.log(_);
+    } else {
+      // TODO: prompt で上書きしていいか確認
+      // 上書きしてOKなら writeFile で書き込み
+      throw new Error('.prettierrc file exist!');
     }
   }
 }
