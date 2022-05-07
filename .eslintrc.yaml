@@ -1,0 +1,38 @@
+root: true
+env:
+  es6: true
+  node: true
+
+extends:
+  - eslint:recommended
+  - plugin:@typescript-eslint/recommended
+  - prettier
+
+parser: '@typescript-eslint/parser'
+
+plugins:
+  - '@typescript-eslint'
+
+rules:
+  # `var`を使ったら怒るよ
+  no-var: error
+
+  # `==` とかを使わないでね
+  eqeqeq: error
+
+  # ブロック演算子はスペース入れてね
+  block-spacing: error
+
+  # `{}` の中の前後はスペースを入れてね
+  object-curly-spacing:
+    - error
+    - always
+
+  # 演算子の前後のスペースは絶対抜かないで
+  space-infix-ops: error
+
+  # アロー演算子前後のスペース強制
+  arrow-spacing: error
+
+  # タブとスペースを混ぜないで
+  no-mixed-spaces-and-tabs: error

@@ -1,0 +1,28 @@
+name: test
+on:
+  pull_request:
+    paths:
+      - src/**/*
+  push:
+    branches:
+      - master
+    paths:
+      - src/**/*
+
+jobs:
+  typeCheck:
+    name: typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: using node 16.13.0
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.13.0'
+
+      - name: yarn install
+        run: yarn --frozen-lockfile
+
+      - name: type check
+        run: yarn test
