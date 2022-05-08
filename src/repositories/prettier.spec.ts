@@ -1,9 +1,13 @@
 import { PrettierRcRepository } from '@/repositories/prettier';
 import fs from 'fs/promises';
+import { Stats } from 'fs';
 
 describe('🚓 PrettierRcRepository', () => {
   describe('🚓 save', () => {
     it('👮 改行文字を加えてファイルに出力する', async () => {
+      // lstat がファイルが存在しないと解釈するように reject させる挙動でモック
+      jest.spyOn(fs, 'lstat').mockImplementation(() => Promise.reject());
+
       const spyOfWriteFile = jest
         .spyOn(fs, 'writeFile')
         .mockImplementation(() => Promise.resolve());
@@ -26,6 +30,19 @@ describe('🚓 PrettierRcRepository', () => {
         ) + '\n';
 
       expect(spyOfWriteFile).toHaveBeenCalledWith('.prettierrc', expectedJSON);
+    });
+
+    it('👮 ファイルが存在する場合はエラーを返す', async () => {
+      // lstat がファイルが存在すると解釈するようにモック
+      jest
+        .spyOn(fs, 'lstat')
+        .mockImplementation(() => Promise.resolve({} as Stats));
+
+      const prettierrc = new PrettierRcRepository();
+
+      await expect(prettierrc.save()).rejects.toThrowError(
+        new Error('.prettierrc file exist!')
+      );
     });
   });
 });
