@@ -27,7 +27,7 @@ export class PrettierRcRepository {
   async save() {
     // 第3引数が pretty にする設定, 2 を渡すとスペース2つで見やすくなる
     const stringifyOptions = JSON.stringify(this.option, null, 2) + '\n';
-    const isPrettierRcExist = await isFileExists('./prettierrc');
+    const isPrettierRcExist = await isFileExists('.prettierrc');
 
     // ファイルが存在しなければ writeFile で生成
     if (!isPrettierRcExist) {
