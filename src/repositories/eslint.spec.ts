@@ -23,7 +23,7 @@ describe('🚓 ESLintRcRepository', () => {
     });
   });
 
-  describe('🚓 addRules', () => {
+  describe('🚓 save', () => {
     it('👮 ファイルが存在しない場合は yaml にパース, 改行文字を付加して出力', async () => {
       jest.spyOn(fs, 'lstat').mockImplementation(() => Promise.reject());
 
