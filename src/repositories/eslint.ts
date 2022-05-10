@@ -18,6 +18,10 @@ export class ESLintRcRepository {
     parser: '@typescript-eslint',
   };
 
+  /**
+   * rules に渡したルールをコンフィグに追加する
+   * @param rules ルールのオブジェクト単体, もしくは複数追加の場合 Array
+   */
   addRules(rules: RulesRecord | RulesRecord[]) {
     if (!Array.isArray(rules)) {
       this.config.rules = {
@@ -35,6 +39,9 @@ export class ESLintRcRepository {
     }
   }
 
+  /**
+   * コンフィグ情報を .eslintrc.yaml に書き出す
+   */
   async save() {
     const stringifyYaml = stringify(this.config) + '\n';
     // 設定ファイルの存在を確認
