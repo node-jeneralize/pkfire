@@ -2,6 +2,9 @@ import type { Options } from 'prettier';
 import fs from 'fs/promises';
 import { isFileExists } from '@/helper/isFileExist';
 
+/**
+ * .prettierrc にまつわるものを管理する class
+ */
 export class PrettierRcRepository {
   public option: Options = {
     semi: true,
@@ -12,6 +15,9 @@ export class PrettierRcRepository {
     endOfLine: 'lf',
   };
 
+  /**
+   * コンフィグ情報を .prettierrc に書き出す
+   */
   async save() {
     // 第3引数が pretty にする設定, 2 を渡すとスペース2つで見やすくなる
     const stringifyOptions = JSON.stringify(this.option, null, 2) + '\n';

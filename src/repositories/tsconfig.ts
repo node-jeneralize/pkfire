@@ -2,6 +2,9 @@ import { TSConfig } from 'pkg-types';
 import fs from 'fs/promises';
 import { isFileExists } from '@/helper/isFileExist';
 
+/**
+ * tsconfig.json にまつわるものを管轄する class
+ */
 export class TSConfigRepository {
   config: TSConfig = {
     compilerOptions: {
@@ -22,6 +25,9 @@ export class TSConfigRepository {
     exclude: ['node_modules'],
   };
 
+  /**
+   * コンフィグ情報を tsconfig.json に書き出す
+   */
   async save() {
     const stringifyConfigJson = JSON.stringify(this.config, null, 2) + '\n';
     const isTSConfigExist = await isFileExists('tsconfig.json');
