@@ -1,10 +1,14 @@
-import inquirer, { Answers, QuestionCollection } from 'inquirer';
+import inquirer, { QuestionCollection } from 'inquirer';
+
+interface PromptAnswer {
+  environment: 'node' | 'front';
+}
 
 /**
  * node の環境か front の環境で使うかどっちかを質問する
- * @return {Answers} inquirer の Answer class
+ * @return 'node' か 'front'
  */
-export const isNodeOrFront = async (): Promise<Answers> => {
+export const isNodeOrFront = async (): Promise<'node' | 'front'> => {
   const questionInterfaces: QuestionCollection = [
     {
       type: 'list',
@@ -22,6 +26,6 @@ export const isNodeOrFront = async (): Promise<Answers> => {
       ],
     },
   ];
-
-  return inquirer.prompt(questionInterfaces);
+  const answer = await inquirer.prompt<PromptAnswer>(questionInterfaces);
+  return answer.environment;
 };
