@@ -17,6 +17,20 @@ export class ESLintRcRepository {
     extends: ['eslint:recommended'],
   };
 
+  // Prettier の設定をファイル出力する手前で後付けするために
+  // bool の値を内部で持たせて情報を持っておく
+  private isEnablePrettierFeature = false;
+
+  /**
+   * `prettier` を extends の末尾に入れる
+   * @private 最後に書き出すための省略用メソッド
+   */
+  private addPrettierToExtends() {
+    if (Array.isArray(this.config.extends)) {
+      this.config.extends.push('prettier');
+    }
+  }
+
   /**
    * TypeScript まわりの設定を追加する
    */
@@ -28,6 +42,13 @@ export class ESLintRcRepository {
     }
 
     this.config.parser = '@typescript-eslint';
+  }
+
+  /**
+   * Prettier の設定を有効化する
+   */
+  enablePrettierFeature() {
+    this.isEnablePrettierFeature = true;
   }
 
   /**
@@ -55,6 +76,11 @@ export class ESLintRcRepository {
    * コンフィグ情報を .eslintrc.yaml に書き出す
    */
   async save() {
+    // Prettier の設定が最後に設定に適用される
+    if (this.isEnablePrettierFeature) {
+      this.addPrettierToExtends();
+    }
+
     const stringifyYaml = stringify(this.config) + '\n';
     // 設定ファイルの存在を確認
     const isESLintRcExistChecks = await Promise.all([
