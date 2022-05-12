@@ -14,9 +14,21 @@ export class ESLintRcRepository {
       node: true,
     },
 
-    extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
-    parser: '@typescript-eslint',
+    extends: ['eslint:recommended'],
   };
+
+  /**
+   * TypeScript まわりの設定を追加する
+   */
+  enableTypeScriptFeatures() {
+    // extends が string だったり undefined だったりするケースも定義上あるので
+    // Array であることを確定させている
+    if (Array.isArray(this.config.extends)) {
+      this.config.extends.push('plugin:@typescript-eslint/recommended');
+    }
+
+    this.config.parser = '@typescript-eslint';
+  }
 
   /**
    * rules に渡したルールをコンフィグに追加する

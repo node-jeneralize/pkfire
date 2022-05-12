@@ -4,6 +4,24 @@ import { ESLintRcRepository } from '@/repositories/eslint';
 import { Stats } from 'fs';
 
 describe('🚓 ESLintRcRepository', () => {
+  describe('🚓 enableTypeScriptFeatures', () => {
+    it('👮 実行したら extends と parser が設定される', () => {
+      const eslintrc = new ESLintRcRepository();
+      eslintrc.enableTypeScriptFeatures();
+
+      const expectResults = {
+        extends: [
+          'eslint:recommended',
+          'plugin:@typescript-eslint/recommended',
+        ],
+        parser: '@typescript-eslint',
+      };
+
+      expect(eslintrc.config.extends).toStrictEqual(expectResults.extends);
+      expect(eslintrc.config.parser).toBe(expectResults.parser);
+    });
+  });
+
   describe('🚓 addRules', () => {
     it('👮 単体追加', () => {
       const eslintrc = new ESLintRcRepository();
