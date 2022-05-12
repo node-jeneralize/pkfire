@@ -22,6 +22,32 @@ describe('🚓 ESLintRcRepository', () => {
     });
   });
 
+  describe('🚓 enablePrettierFeature', () => {
+    it('👮 有効にして save() を実行すると extends の末尾に prettier が存在する', async () => {
+      jest.spyOn(fs, 'lstat').mockImplementation(() => Promise.reject());
+
+      const spyOfWriteFile = jest
+        .spyOn(fs, 'writeFile')
+        .mockImplementation(() => Promise.resolve());
+
+      const eslintrc = new ESLintRcRepository();
+      eslintrc.enablePrettierFeature();
+      await eslintrc.save();
+
+      const expectedYaml =
+        yaml.stringify({
+          ...eslintrc.config,
+          extends: ['eslint:recommended', 'prettier'], // extends 設定だけここで上書きして yaml を吐き出させる
+        }) + '\n';
+
+      expect(spyOfWriteFile).toHaveBeenCalledWith(
+        '.eslintrc.yaml',
+        expectedYaml,
+        { encoding: 'utf8' }
+      );
+    });
+  });
+
   describe('🚓 addRules', () => {
     it('👮 単体追加', () => {
       const eslintrc = new ESLintRcRepository();
