@@ -1,7 +1,7 @@
 import { cac } from 'cac';
 import { isNodeOrFront } from '@/questions/isNodeOrFront';
 
-export const main = async () => {
+const main = async () => {
   const cli = cac('project_kicker');
 
   cli
