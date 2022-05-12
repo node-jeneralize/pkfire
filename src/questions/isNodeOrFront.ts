@@ -8,7 +8,7 @@ interface PromptAnswer {
  * node の環境か front の環境で使うかどっちかを質問する
  * @return 'node' か 'front'
  */
-export const isNodeOrFront = async (): Promise<'node' | 'front'> => {
+export const askNodeOrFront = async (): Promise<'node' | 'front'> => {
   const questionInterfaces: QuestionCollection = [
     {
       type: 'list',
