@@ -41,6 +41,14 @@ export class ESLintRcRepository {
       this.config.extends.push('plugin:@typescript-eslint/recommended');
     }
 
+    // すでに どこかしらのメソッド定義で plugins が Array になってる場合はただ追加するだけ
+    if (Array.isArray(this.config.plugins)) {
+      this.config.plugins.push('@typescript-eslint');
+    } else {
+      // まだArrayとして定義されていない場合は Array をそのまま代入してやる
+      this.config.plugins = ['@typescript-eslint'];
+    }
+
     this.config.parser = '@typescript-eslint/parser';
   }
 
