@@ -46,11 +46,6 @@ export const askLinterAndFormatter = async (): Promise<ReturnObject> => {
     ? new PrettierRcRepository()
     : undefined;
 
-  // ESLint と Prettier の両方の選択が有効の場合は eslintrc の設定に
-  if (eslintrc && prettierrc) {
-    eslintrc.enablePrettierFeature();
-  }
-
   return {
     ESLint: eslintrc,
     Prettier: prettierrc,
