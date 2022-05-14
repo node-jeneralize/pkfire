@@ -89,7 +89,7 @@ export class ESLintRcRepository {
       this.addPrettierToExtends();
     }
 
-    const stringifyYaml = stringify(this.config) + '\n';
+    const stringifyYaml = stringify(this.config);
     // 設定ファイルの存在を確認
     const isESLintRcExistChecks = await Promise.all([
       isFileExists('.eslintrc'),
