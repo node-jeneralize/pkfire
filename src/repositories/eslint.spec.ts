@@ -5,7 +5,7 @@ import { Stats } from 'fs';
 
 describe('🚓 ESLintRcRepository', () => {
   describe('🚓 enableTypeScriptFeatures', () => {
-    it('👮 実行したら extends と parser が設定される', () => {
+    it('👮 実行したら extends と plugins, parser が設定される', () => {
       const eslintrc = new ESLintRcRepository();
       eslintrc.enableTypeScriptFeatures();
 
@@ -14,10 +14,12 @@ describe('🚓 ESLintRcRepository', () => {
           'eslint:recommended',
           'plugin:@typescript-eslint/recommended',
         ],
-        parser: '@typescript-eslint',
+        plugins: ['@typescript-eslint'],
+        parser: '@typescript-eslint/parser',
       };
 
       expect(eslintrc.config.extends).toStrictEqual(expectResults.extends);
+      expect(eslintrc.config.plugins).toStrictEqual(expectResults.plugins);
       expect(eslintrc.config.parser).toBe(expectResults.parser);
     });
   });
