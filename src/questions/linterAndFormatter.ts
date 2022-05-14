@@ -1,16 +1,18 @@
 import inquirer, { QuestionCollection } from 'inquirer';
+import { ESLintRcRepository } from '@/repositories/eslint';
+import { PrettierRcRepository } from '@/repositories/prettier';
 
 interface PromptAnswer {
   LinterAndFormatter: Array<'eslint' | 'prettier'>;
 }
 
 interface ReturnObject {
-  ESLint: boolean;
-  Prettier: boolean;
+  ESLint: ESLintRcRepository | undefined;
+  Prettier: PrettierRcRepository | undefined;
 }
 /**
  * Linter や Formatter を使うかどうか質問する
- * @return ESLint や Prettier のどれを使うか
+ * @return ESLint や Prettier のどれを使うか, 使う場合はインスタンスが内包される
  */
 export const askLinterAndFormatter = async (): Promise<ReturnObject> => {
   const question: QuestionCollection = [
@@ -31,11 +33,26 @@ export const askLinterAndFormatter = async (): Promise<ReturnObject> => {
     },
   ];
 
-  const res = (await inquirer.prompt<PromptAnswer>(question))
+  const userResponse = (await inquirer.prompt<PromptAnswer>(question))
     .LinterAndFormatter;
 
+  // ESLint の選択が有効であれば eslintrc の設定クラスを生成
+  const eslintrc = userResponse.includes('eslint')
+    ? new ESLintRcRepository()
+    : undefined;
+
+  // Prettier の選択が有効であれば prettierrc の設定クラスを生成
+  const prettierrc = userResponse.includes('prettier')
+    ? new PrettierRcRepository()
+    : undefined;
+
+  // ESLint と Prettier の両方の選択が有効の場合は eslintrc の設定に
+  if (eslintrc && prettierrc) {
+    eslintrc.enablePrettierFeature();
+  }
+
   return {
-    ESLint: res.includes('eslint'),
-    Prettier: res.includes('prettier'),
+    ESLint: eslintrc,
+    Prettier: prettierrc,
   };
 };
