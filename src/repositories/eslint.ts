@@ -41,7 +41,7 @@ export class ESLintRcRepository {
       this.config.extends.push('plugin:@typescript-eslint/recommended');
     }
 
-    this.config.parser = '@typescript-eslint';
+    this.config.parser = '@typescript-eslint/parser';
   }
 
   /**
