@@ -36,11 +36,10 @@ describe('🚓 ESLintRcRepository', () => {
       eslintrc.enablePrettierFeature();
       await eslintrc.save();
 
-      const expectedYaml =
-        yaml.stringify({
-          ...eslintrc.config,
-          extends: ['eslint:recommended', 'prettier'], // extends 設定だけここで上書きして yaml を吐き出させる
-        }) + '\n';
+      const expectedYaml = yaml.stringify({
+        ...eslintrc.config,
+        extends: ['eslint:recommended', 'prettier'], // extends 設定だけここで上書きして yaml を吐き出させる
+      });
 
       expect(spyOfWriteFile).toHaveBeenCalledWith(
         '.eslintrc.yaml',
@@ -80,7 +79,7 @@ describe('🚓 ESLintRcRepository', () => {
       const eslintrc = new ESLintRcRepository();
       await eslintrc.save();
 
-      const expectedYaml = yaml.stringify(eslintrc.config) + '\n';
+      const expectedYaml = yaml.stringify(eslintrc.config);
       expect(spyOfWriteFile).toHaveBeenCalledWith(
         '.eslintrc.yaml',
         expectedYaml,
