@@ -1,3 +1,5 @@
+import { execa } from 'execa';
+
 export class PackageInstallerRepository {
   private userSelectedPackageManager: 'npm' | 'yarn' = 'npm';
 
@@ -27,7 +29,19 @@ export class PackageInstallerRepository {
   /**
    * パッケージのインストールを実行
    */
-  install() {
-    // TODO: cross-spawn を使用して npm install などのコマンドを実行する
+  async install() {
+    const installCommands = {
+      npm: ['install', '-D', ...this.installPackages],
+      yarn: ['add', '-D', ...this.installPackages],
+    };
+
+    return execa(
+      this.userSelectedPackageManager,
+      installCommands[this.userSelectedPackageManager],
+      {
+        encoding: 'utf8',
+        stdio: 'inherit',
+      }
+    );
   }
 }

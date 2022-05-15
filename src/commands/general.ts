@@ -42,7 +42,7 @@ export const runGeneralCommandJob = async () => {
   }
 
   // パッケージのインストールを開始
-  packageInstaller.install();
+  await packageInstaller.install();
 
   //------------------------------------------------------------------------------
   // Config files generating
