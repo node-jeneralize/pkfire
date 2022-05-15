@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "cac": "^6.7.12",
+    "execa": "^6.1.0",
     "inquirer": "^8.2.4",
     "prettier": "^2.6.2",
     "yaml": "^2.0.1"
