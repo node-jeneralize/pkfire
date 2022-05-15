@@ -1,7 +1,7 @@
 import { execa } from 'execa';
 
 export class PackageInstallerRepository {
-  private userSelectedPackageManager: 'npm' | 'yarn' = 'npm';
+  private readonly userSelectedPackageManager: 'npm' | 'yarn' = 'npm';
 
   private installPackages: string[] = [];
 
