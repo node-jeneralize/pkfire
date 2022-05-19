@@ -5,7 +5,7 @@ import { isFileExists } from '@/helper/isFileExist';
 /**
  * .prettierrc にまつわるものを管理する class
  */
-export class PrettierRcRepository {
+export class PrettierRc {
   public option: Options = {
     semi: true,
     singleQuote: true,
