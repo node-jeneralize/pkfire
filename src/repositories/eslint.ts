@@ -6,7 +6,7 @@ import { isFileExists } from '@/helper/isFileExist';
 type RulesRecord = Linter.RulesRecord;
 type BaseConfig = Linter.Config;
 
-export class ESLintRcRepository {
+export class ESLintRc {
   config: BaseConfig = {
     root: true,
     env: {
