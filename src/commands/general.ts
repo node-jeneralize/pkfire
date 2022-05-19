@@ -1,8 +1,8 @@
 import { askUseTypeScript } from '@/questions/useTypeScript';
 import { askLinterAndFormatter } from '@/questions/linterAndFormatter';
 import { askWhichPackageManager } from '@/questions/packageManager';
-import { PackageInstallerRepository } from '@/repositories/packageInstaller';
-import { TSConfigRepository } from '@/repositories/tsconfig';
+import { PackageInstaller } from '@/repositories/packageInstaller';
+import { TSConfigJson } from '@/repositories/tsconfig';
 
 /**
  * パラメータなどの引数なしで実行したときの挙動を実行する
@@ -15,7 +15,7 @@ export const runGeneralCommandJob = async () => {
   //------------------------------------------------------------------------------
   // Package Installation
   //------------------------------------------------------------------------------
-  const packageInstaller = new PackageInstallerRepository(packageManager);
+  const packageInstaller = new PackageInstaller(packageManager);
 
   if (linterAndFormatter.ESLint) {
     // 必須パッケージを追加
@@ -49,7 +49,7 @@ export const runGeneralCommandJob = async () => {
   //------------------------------------------------------------------------------
 
   if (environment.shouldWriteTSConfigJson) {
-    const tsconfig = new TSConfigRepository();
+    const tsconfig = new TSConfigJson();
     await tsconfig.save();
   }
 
