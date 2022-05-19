@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 import { Stats } from 'fs';
-import { TSConfigRepository } from '@/repositories/tsconfig';
+import { TSConfigJson } from '@/repositories/tsconfig';
 
 describe('🚓 TSConfigRepository', () => {
   describe('🚓 save', () => {
@@ -12,7 +12,7 @@ describe('🚓 TSConfigRepository', () => {
         .spyOn(fs, 'writeFile')
         .mockImplementation(() => Promise.resolve());
 
-      const tsconfig = new TSConfigRepository();
+      const tsconfig = new TSConfigJson();
       await tsconfig.save();
 
       const expectedJSON =
@@ -54,7 +54,7 @@ describe('🚓 TSConfigRepository', () => {
         .spyOn(fs, 'lstat')
         .mockImplementation(() => Promise.resolve({} as Stats));
 
-      const tsconfig = new TSConfigRepository();
+      const tsconfig = new TSConfigJson();
 
       await expect(tsconfig.save()).rejects.toThrowError(
         new Error('tsconfig.json file already exist!')
