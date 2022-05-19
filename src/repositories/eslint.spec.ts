@@ -1,12 +1,12 @@
 import fs from 'fs/promises';
 import yaml from 'yaml';
-import { ESLintRcRepository } from '@/repositories/eslint';
+import { ESLintRc } from '@/repositories/eslint';
 import { Stats } from 'fs';
 
-describe('🚓 ESLintRcRepository', () => {
+describe('🚓 ESLintRc', () => {
   describe('🚓 enableTypeScriptFeatures', () => {
     it('👮 実行したら extends と plugins, parser が設定される', () => {
-      const eslintrc = new ESLintRcRepository();
+      const eslintrc = new ESLintRc();
       eslintrc.enableTypeScriptFeatures();
 
       const expectResults = {
@@ -32,7 +32,7 @@ describe('🚓 ESLintRcRepository', () => {
         .spyOn(fs, 'writeFile')
         .mockImplementation(() => Promise.resolve());
 
-      const eslintrc = new ESLintRcRepository();
+      const eslintrc = new ESLintRc();
       eslintrc.enablePrettierFeature();
       await eslintrc.save();
 
@@ -51,14 +51,14 @@ describe('🚓 ESLintRcRepository', () => {
 
   describe('🚓 addRules', () => {
     it('👮 単体追加', () => {
-      const eslintrc = new ESLintRcRepository();
+      const eslintrc = new ESLintRc();
       eslintrc.addRules({ 'no-var': 'error' });
 
       expect(eslintrc.config.rules).toStrictEqual({ 'no-var': 'error' });
     });
 
     it('👮 複数追加', () => {
-      const eslintrc = new ESLintRcRepository();
+      const eslintrc = new ESLintRc();
       eslintrc.addRules([{ 'no-var': 'error' }, { eqeqeq: 'error' }]);
 
       expect(eslintrc.config.rules).toStrictEqual({
@@ -76,7 +76,7 @@ describe('🚓 ESLintRcRepository', () => {
         .spyOn(fs, 'writeFile')
         .mockImplementation(() => Promise.resolve());
 
-      const eslintrc = new ESLintRcRepository();
+      const eslintrc = new ESLintRc();
       await eslintrc.save();
 
       const expectedYaml = yaml.stringify(eslintrc.config);
@@ -92,7 +92,7 @@ describe('🚓 ESLintRcRepository', () => {
         .spyOn(fs, 'lstat')
         .mockImplementation(() => Promise.resolve({} as Stats));
 
-      const eslintrc = new ESLintRcRepository();
+      const eslintrc = new ESLintRc();
 
       await expect(eslintrc.save()).rejects.toThrowError(
         new Error('.eslintrc file already exist!')

@@ -5,7 +5,7 @@ import { isFileExists } from '@/helper/isFileExist';
 /**
  * tsconfig.json にまつわるものを管轄する class
  */
-export class TSConfigRepository {
+export class TSConfigJson {
   config: TSConfig = {
     compilerOptions: {
       module: 'commonjs',
