@@ -1,8 +1,11 @@
 {
   "name": "project_kicker",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/index.js",
   "license": "MIT",
+  "bin": {
+    "pk": "./bin/index.js"
+  },
   "scripts": {
     "test": "jest",
     "typeCheck": "tsc --noEmit",
