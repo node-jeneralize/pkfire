@@ -1,6 +1,6 @@
 import { execa } from 'execa';
 
-export class PackageInstallerRepository {
+export class PackageInstaller {
   private readonly userSelectedPackageManager: 'npm' | 'yarn' = 'npm';
 
   private installPackages: string[] = [];
