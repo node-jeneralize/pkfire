@@ -12,7 +12,8 @@
     "lint:code:fix": "prettier --write .",
     "lint": "npm run lint:code && npm run lint:js",
     "lint:fix": "npm run lint:code:fix && npm run lint:js:fix",
-    "ts-node-paths": "ts-node --files -r tsconfig-paths/register"
+    "ts-node-paths": "ts-node --files -r tsconfig-paths/register",
+    "build": "yarn typeCheck && esbuild --minify --bundle --outdir=dist --platform=node src/index.ts"
   },
   "dependencies": {
     "cac": "^6.7.12",
