@@ -1,0 +1,7 @@
+.github
+coverage
+.editorconfig
+.eslintrc.yaml
+.prettierrc
+jest.config.ts
+tsconfig.json
