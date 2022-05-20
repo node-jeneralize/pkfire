@@ -1,19 +1,64 @@
 import fs from 'fs/promises';
 import yaml from 'yaml';
-import { ESLintRcRepository } from '@/repositories/eslint';
+import { ESLintRc } from '@/repositories/eslint';
 import { Stats } from 'fs';
 
-describe('🚓 ESLintRcRepository', () => {
+describe('🚓 ESLintRc', () => {
+  describe('🚓 enableTypeScriptFeatures', () => {
+    it('👮 実行したら extends と plugins, parser が設定される', () => {
+      const eslintrc = new ESLintRc();
+      eslintrc.enableTypeScriptFeatures();
+
+      const expectResults = {
+        extends: [
+          'eslint:recommended',
+          'plugin:@typescript-eslint/recommended',
+        ],
+        plugins: ['@typescript-eslint'],
+        parser: '@typescript-eslint/parser',
+      };
+
+      expect(eslintrc.config.extends).toStrictEqual(expectResults.extends);
+      expect(eslintrc.config.plugins).toStrictEqual(expectResults.plugins);
+      expect(eslintrc.config.parser).toBe(expectResults.parser);
+    });
+  });
+
+  describe('🚓 enablePrettierFeature', () => {
+    it('👮 有効にして save() を実行すると extends の末尾に prettier が存在する', async () => {
+      jest.spyOn(fs, 'lstat').mockImplementation(() => Promise.reject());
+
+      const spyOfWriteFile = jest
+        .spyOn(fs, 'writeFile')
+        .mockImplementation(() => Promise.resolve());
+
+      const eslintrc = new ESLintRc();
+      eslintrc.enablePrettierFeature();
+      await eslintrc.save();
+
+      const expectedYaml = yaml.stringify({
+        ...eslintrc.config,
+        extends: ['eslint:recommended', 'prettier'], // extends 設定だけここで上書きして yaml を吐き出させる
+      });
+
+      expect(spyOfWriteFile).toHaveBeenCalledWith(
+        '.eslintrc.yaml',
+        expectedYaml,
+        { encoding: 'utf8' }
+      );
+    });
+  });
+
   describe('🚓 addRules', () => {
     it('👮 単体追加', () => {
-      const eslintrc = new ESLintRcRepository();
+      const eslintrc = new ESLintRc();
       eslintrc.addRules({ 'no-var': 'error' });
 
       expect(eslintrc.config.rules).toStrictEqual({ 'no-var': 'error' });
     });
 
     it('👮 複数追加', () => {
-      const eslintrc = new ESLintRcRepository();
+      const eslintrc = new ESLintRc();
       eslintrc.addRules([{ 'no-var': 'error' }, { eqeqeq: 'error' }]);
 
       expect(eslintrc.config.rules).toStrictEqual({
@@ -31,10 +76,10 @@ describe('🚓 ESLintRcRepository', () => {
         .spyOn(fs, 'writeFile')
         .mockImplementation(() => Promise.resolve());
 
-      const eslintrc = new ESLintRcRepository();
+      const eslintrc = new ESLintRc();
       await eslintrc.save();
 
-      const expectedYaml = yaml.stringify(eslintrc.config) + '\n';
+      const expectedYaml = yaml.stringify(eslintrc.config);
       expect(spyOfWriteFile).toHaveBeenCalledWith(
         '.eslintrc.yaml',
         expectedYaml,
@@ -47,7 +92,7 @@ describe('🚓 ESLintRcRepository', () => {
         .spyOn(fs, 'lstat')
         .mockImplementation(() => Promise.resolve({} as Stats));
 
-      const eslintrc = new ESLintRcRepository();
+      const eslintrc = new ESLintRc();
 
       await expect(eslintrc.save()).rejects.toThrowError(
         new Error('.eslintrc file already exist!')

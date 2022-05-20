@@ -1,8 +1,23 @@
 {
   "name": "project_kicker",
-  "version": "1.0.0",
-  "main": "index.js",
+  "version": "0.0.1",
+  "main": "dist/index.js",
   "license": "MIT",
+  "description": "Node application developer toolchains installer CLI",
+  "homepage": "https://github.com/huequica/project_kicker",
+  "private": false,
+  "author": {
+    "email": "dev@huequica.xyz",
+    "name": "huequica",
+    "url": "https://github.com/huequica"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/huequica/project_kicker"
+  },
+  "bin": {
+    "pk": "./bin/index.js"
+  },
   "scripts": {
     "test": "jest",
     "typeCheck": "tsc --noEmit",
@@ -12,21 +27,29 @@
     "lint:code:fix": "prettier --write .",
     "lint": "npm run lint:code && npm run lint:js",
     "lint:fix": "npm run lint:code:fix && npm run lint:js:fix",
-    "ts-node-paths": "ts-node --files -r tsconfig-paths/register"
+    "ts-node-paths": "ts-node --files -r tsconfig-paths/register",
+    "build": "yarn typeCheck && esbuild --minify --bundle --outdir=dist --platform=node src/index.ts",
+    "prepare": "yarn build"
   },
   "dependencies": {
-    "prettier": "^2.6.2",
+    "cac": "^6.7.12",
+    "execa": "^6.1.0",
+    "inquirer": "^8.2.4",
     "yaml": "^2.0.1"
   },
   "devDependencies": {
+    "prettier": "^2.6.2",
     "@types/eslint": "^8.4.2",
+    "@types/inquirer": "^8.2.1",
     "@types/jest": "^27.5.0",
     "@types/node": "^17.0.31",
     "@typescript-eslint/eslint-plugin": "^5.22.0",
     "@typescript-eslint/parser": "^5.22.0",
+    "esbuild": "^0.14.39",
     "eslint": "^8.14.0",
     "eslint-config-prettier": "^8.5.0",
     "jest": "^28.1.0",
+    "pkg-types": "^0.3.2",
     "ts-jest": "^28.0.1",
     "ts-node": "^10.7.0",
     "tsconfig-paths": "^4.0.0",

@@ -6,7 +6,7 @@ import { isFileExists } from '@/helper/isFileExist';
 type RulesRecord = Linter.RulesRecord;
 type BaseConfig = Linter.Config;
 
-export class ESLintRcRepository {
+export class ESLintRc {
   config: BaseConfig = {
     root: true,
     env: {
@@ -14,10 +14,55 @@ export class ESLintRcRepository {
       node: true,
     },
 
-    extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
-    parser: '@typescript-eslint',
+    extends: ['eslint:recommended'],
   };
 
+  // Prettier の設定をファイル出力する手前で後付けするために
+  // bool の値を内部で持たせて情報を持っておく
+  private isEnablePrettierFeature = false;
+
+  /**
+   * `prettier` を extends の末尾に入れる
+   * @private 最後に書き出すための省略用メソッド
+   */
+  private addPrettierToExtends() {
+    if (Array.isArray(this.config.extends)) {
+      this.config.extends.push('prettier');
+    }
+  }
+
+  /**
+   * TypeScript まわりの設定を追加する
+   */
+  enableTypeScriptFeatures() {
+    // extends が string だったり undefined だったりするケースも定義上あるので
+    // Array であることを確定させている
+    if (Array.isArray(this.config.extends)) {
+      this.config.extends.push('plugin:@typescript-eslint/recommended');
+    }
+
+    // すでに どこかしらのメソッド定義で plugins が Array になってる場合はただ追加するだけ
+    if (Array.isArray(this.config.plugins)) {
+      this.config.plugins.push('@typescript-eslint');
+    } else {
+      // まだArrayとして定義されていない場合は Array をそのまま代入してやる
+      this.config.plugins = ['@typescript-eslint'];
+    }
+
+    this.config.parser = '@typescript-eslint/parser';
+  }
+
+  /**
+   * Prettier の設定を有効化する
+   */
+  enablePrettierFeature() {
+    this.isEnablePrettierFeature = true;
+  }
+
+  /**
+   * rules に渡したルールをコンフィグに追加する
+   * @param rules ルールのオブジェクト単体, もしくは複数追加の場合 Array
+   */
   addRules(rules: RulesRecord | RulesRecord[]) {
     if (!Array.isArray(rules)) {
       this.config.rules = {
@@ -35,8 +80,16 @@ export class ESLintRcRepository {
     }
   }
 
+  /**
+   * コンフィグ情報を .eslintrc.yaml に書き出す
+   */
   async save() {
-    const stringifyYaml = stringify(this.config) + '\n';
+    // Prettier の設定が最後に設定に適用される
+    if (this.isEnablePrettierFeature) {
+      this.addPrettierToExtends();
+    }
+
+    const stringifyYaml = stringify(this.config);
     // 設定ファイルの存在を確認
     const isESLintRcExistChecks = await Promise.all([
       isFileExists('.eslintrc'),

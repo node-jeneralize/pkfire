@@ -1,8 +1,8 @@
-import { PrettierRcRepository } from '@/repositories/prettier';
+import { PrettierRc } from '@/repositories/prettier';
 import fs from 'fs/promises';
 import { Stats } from 'fs';
 
-describe('🚓 PrettierRcRepository', () => {
+describe('🚓 PrettierRc', () => {
   describe('🚓 save', () => {
     it('👮 改行文字を加えてファイルに出力する', async () => {
       // lstat がファイルが存在しないと解釈するように reject させる挙動でモック
@@ -12,7 +12,7 @@ describe('🚓 PrettierRcRepository', () => {
         .spyOn(fs, 'writeFile')
         .mockImplementation(() => Promise.resolve());
 
-      const prettierrc = new PrettierRcRepository();
+      const prettierrc = new PrettierRc();
       await prettierrc.save();
 
       const expectedJSON =
@@ -38,7 +38,7 @@ describe('🚓 PrettierRcRepository', () => {
         .spyOn(fs, 'lstat')
         .mockImplementation(() => Promise.resolve({} as Stats));
 
-      const prettierrc = new PrettierRcRepository();
+      const prettierrc = new PrettierRc();
 
       await expect(prettierrc.save()).rejects.toThrowError(
         new Error('.prettierrc file exist!')
