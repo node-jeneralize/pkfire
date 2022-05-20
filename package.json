@@ -16,7 +16,8 @@
     "lint": "npm run lint:code && npm run lint:js",
     "lint:fix": "npm run lint:code:fix && npm run lint:js:fix",
     "ts-node-paths": "ts-node --files -r tsconfig-paths/register",
-    "build": "yarn typeCheck && esbuild --minify --bundle --outdir=dist --platform=node src/index.ts"
+    "build": "yarn typeCheck && esbuild --minify --bundle --outdir=dist --platform=node src/index.ts",
+    "prepare": "yarn build"
   },
   "dependencies": {
     "cac": "^6.7.12",
