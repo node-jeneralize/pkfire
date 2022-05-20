@@ -1,4 +1,7 @@
-# project-kicker
+  <h1 align="center">project_kicker</h1>
+
+![NPM](https://img.shields.io/npm/l/project_kicker?style=flat-square)
+[![test](https://github.com/huequica/project_kicker/actions/workflows/jest.yaml/badge.svg)](https://github.com/huequica/project_kicker/actions/workflows/jest.yaml)
 
 Node application developer toolchains installer CLI
 
@@ -20,7 +23,6 @@ Node application developer toolchains installer CLI
 # 🧑‍💻 get started(WIP)
 
 ```bash
-# WIP(will be release to npmjs.com)
 $ npm install -g project_kicker
 $ pk
 ```
