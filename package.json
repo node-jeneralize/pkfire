@@ -3,6 +3,18 @@
   "version": "0.0.1",
   "main": "dist/index.js",
   "license": "MIT",
+  "description": "Node application developer toolchains installer CLI",
+  "homepage": "https://github.com/huequica/project_kicker",
+  "private": false,
+  "author": {
+    "email": "dev@huequica.xyz",
+    "name": "huequica",
+    "url": "https://github.com/huequica"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/huequica/project_kicker"
+  },
   "bin": {
     "pk": "./bin/index.js"
   },
