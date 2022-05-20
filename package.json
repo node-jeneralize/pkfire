@@ -1,8 +1,20 @@
 {
   "name": "project_kicker",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "main": "dist/index.js",
   "license": "MIT",
+  "description": "Node application developer toolchains installer CLI",
+  "homepage": "https://github.com/huequica/project_kicker",
+  "private": false,
+  "author": {
+    "email": "dev@huequica.xyz",
+    "name": "huequica",
+    "url": "https://github.com/huequica"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/huequica/project_kicker"
+  },
   "bin": {
     "pk": "./bin/index.js"
   },
@@ -16,16 +28,17 @@
     "lint": "npm run lint:code && npm run lint:js",
     "lint:fix": "npm run lint:code:fix && npm run lint:js:fix",
     "ts-node-paths": "ts-node --files -r tsconfig-paths/register",
-    "build": "yarn typeCheck && esbuild --minify --bundle --outdir=dist --platform=node src/index.ts"
+    "build": "yarn typeCheck && esbuild --minify --bundle --outdir=dist --platform=node src/index.ts",
+    "prepare": "yarn build"
   },
   "dependencies": {
     "cac": "^6.7.12",
     "execa": "^6.1.0",
     "inquirer": "^8.2.4",
-    "prettier": "^2.6.2",
     "yaml": "^2.0.1"
   },
   "devDependencies": {
+    "prettier": "^2.6.2",
     "@types/eslint": "^8.4.2",
     "@types/inquirer": "^8.2.1",
     "@types/jest": "^27.5.0",
