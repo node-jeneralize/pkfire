@@ -16,7 +16,7 @@
     "url": "https://github.com/huequica/project_kicker"
   },
   "bin": {
-    "pk": "./bin/index.js"
+    "pk": "./bin/pk"
   },
   "scripts": {
     "test": "jest",
