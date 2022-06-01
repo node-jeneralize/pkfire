@@ -17,34 +17,34 @@ export const runGeneralCommandJob = async () => {
   //------------------------------------------------------------------------------
   // Package Installation
   //------------------------------------------------------------------------------
-  const packageInstaller = new PackageInstaller(packageManager);
-
-  if (linterAndFormatter.ESLint) {
-    // 必須パッケージを追加
-    packageInstaller.addInstallPackage('eslint');
-
-    // Prettier もいっしょに使う場合はルール競合回避のパッケージを追加, ESLint のコンフィグに追記
-    if (linterAndFormatter.Prettier) {
-      packageInstaller.addInstallPackage('eslint-config-prettier');
-      linterAndFormatter.ESLint.enablePrettierFeature();
-    }
-
-    // TS といっしょに使う場合は追加, ESLint のコンフィグに追記
-    if (environment.shouldUseTypeScriptFeatures) {
-      packageInstaller.addInstallPackage([
-        '@typescript-eslint/eslint-plugin',
-        '@typescript-eslint/parser',
-      ]);
-      linterAndFormatter.ESLint.enableTypeScriptFeatures();
-    }
-  }
-
-  if (linterAndFormatter.Prettier) {
-    packageInstaller.addInstallPackage('prettier');
-  }
-
-  // パッケージのインストールを開始
-  await packageInstaller.install();
+  // const packageInstaller = new PackageInstaller(packageManager);
+  //
+  // if (linterAndFormatter.ESLint) {
+  //   // 必須パッケージを追加
+  //   packageInstaller.addInstallPackage('eslint');
+  //
+  //   // Prettier もいっしょに使う場合はルール競合回避のパッケージを追加, ESLint のコンフィグに追記
+  //   if (linterAndFormatter.Prettier) {
+  //     packageInstaller.addInstallPackage('eslint-config-prettier');
+  //     linterAndFormatter.ESLint.enablePrettierFeature();
+  //   }
+  //
+  //   // TS といっしょに使う場合は追加, ESLint のコンフィグに追記
+  //   if (environment.shouldUseTypeScriptFeatures) {
+  //     packageInstaller.addInstallPackage([
+  //       '@typescript-eslint/eslint-plugin',
+  //       '@typescript-eslint/parser',
+  //     ]);
+  //     linterAndFormatter.ESLint.enableTypeScriptFeatures();
+  //   }
+  // }
+  //
+  // if (linterAndFormatter.Prettier) {
+  //   packageInstaller.addInstallPackage('prettier');
+  // }
+  //
+  // // パッケージのインストールを開始
+  // await packageInstaller.install();
 
   //------------------------------------------------------------------------------
   // Config files generating

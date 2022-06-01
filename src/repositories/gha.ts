@@ -49,6 +49,7 @@ export class GitHubActionsConfig {
   }
 
   async save(fileName: string) {
+    // TODO: `this.config` が undefined と言われる
     const stringifyYaml = stringify(this.config, { singleQuote: true });
 
     await mkdirp('.github/workflows');
