@@ -30,14 +30,14 @@ interface Jobs {
   };
 }
 
-interface Config {
+export interface GHAConfigDetails {
   name: string;
   on: Trigger;
   jobs: Jobs;
 }
 
 export class GitHubActionsConfig {
-  config: Config = {
+  config: GHAConfigDetails = {
     name: '',
     on: {},
     jobs: {},
