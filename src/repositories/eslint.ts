@@ -2,6 +2,8 @@ import { Linter } from 'eslint';
 import { stringify } from 'yaml';
 import fs from 'fs/promises';
 import { isFileExists } from '@/helper/isFileExist';
+import { generateESLintActionsConfig } from '@/helper/ghaConfigs';
+import { GitHubActionsConfig } from '@/repositories/gha';
 
 type RulesRecord = Linter.RulesRecord;
 type BaseConfig = Linter.Config;
@@ -106,5 +108,15 @@ export class ESLintRc {
       // 上書きしてOKなら writeFile で書き込み
       throw new Error('.eslintrc file already exist!');
     }
+  }
+
+  /**
+   * ESLint の GitHub Actions の設定を生成する
+   * @param packageManager 使用するパッケージマネージャ
+   */
+  async generateGitHubActions(packageManager: 'npm' | 'yarn') {
+    const config = generateESLintActionsConfig(packageManager);
+    const { save: saveActionsConfig } = new GitHubActionsConfig(config);
+    await saveActionsConfig('lint.yaml');
   }
 }
