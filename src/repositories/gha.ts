@@ -1,6 +1,7 @@
 import { stringify } from 'yaml';
 import fs from 'fs/promises';
 import { isFileExists } from '@/helper/isFileExist';
+import mkdirp from 'mkdirp';
 
 interface Step {
   uses?: string;
@@ -50,13 +51,15 @@ export class GitHubActionsConfig {
   async save(fileName: string) {
     const stringifyYaml = stringify(this.config, { singleQuote: true });
 
+    await mkdirp('.github/workflows');
+
     // ファイルがなければ writeFile で生成
-    if (!(await isFileExists(fileName))) {
-      await fs.writeFile(fileName, stringifyYaml);
+    if (!(await isFileExists(`.github/workflows/${fileName}`))) {
+      await fs.writeFile(`.github/workflows/${fileName}`, stringifyYaml);
     } else {
       // TODO: prompt で上書きしていいか確認
       // 上書きしてOKなら writeFile で書き込み
-      throw new Error(`${fileName} already exists!`);
+      throw new Error(`.github/workflows/${fileName} already exists!`);
     }
   }
 }
