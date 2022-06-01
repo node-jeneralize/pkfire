@@ -43,6 +43,10 @@ export class GitHubActionsConfig {
     jobs: {},
   };
 
+  constructor(config: GHAConfigDetails) {
+    this.config = config;
+  }
+
   async save(fileName: string) {
     const stringifyYaml = stringify(this.config, { singleQuote: true });
 
