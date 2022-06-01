@@ -94,3 +94,47 @@ export const generateJestActionsConfig = (
     },
   },
 });
+
+/**
+ * typeCheck を GitHub Actions で動かす用途のコンフィグ情報を吐き出す
+ * @param usePackageManager 使うパッケージマネージャ
+ */
+export const generateTypeCheckActionsConfig = (
+  usePackageManager: PackageManager
+): GHAConfigDetails => ({
+  name: 'typeCheck',
+  on: {
+    pull_request: {
+      paths: ['src/**/*'],
+    },
+  },
+  jobs: {
+    typeCheck: {
+      name: 'typeCheck',
+      'runs-on': 'ubuntu-latest',
+      steps: [
+        {
+          uses: 'actions/checkout@v1',
+        },
+        {
+          name: 'using node',
+          uses: 'actions/setup-node@v2',
+          with: {
+            'node-version': process.versions.node,
+          },
+        },
+        {
+          name: 'module install',
+          run: generateModuleInstallCommand(usePackageManager),
+        },
+        {
+          name: 'run typeChecking',
+          run:
+            usePackageManager === 'npm'
+              ? 'npm run typeCheck'
+              : 'yarn typeCheck',
+        },
+      ],
+    },
+  },
+});
