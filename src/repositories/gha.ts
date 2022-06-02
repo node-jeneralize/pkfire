@@ -45,11 +45,15 @@ export class GitHubActionsConfig {
   };
 
   constructor(config: GHAConfigDetails) {
+    // save() の中で `this.config` が undefined と言われるので明示拘束
+    this.save = this.save.bind(this);
     this.config = config;
   }
 
-  async save(fileName: string) {
-    // TODO: `this.config` が undefined と言われる
+ /**
+   * GitHub Actions の設定を `.github/workflows` の下に保存する
+   */
+   async save(fileName: string) {
     const stringifyYaml = stringify(this.config, { singleQuote: true });
 
     await mkdirp('.github/workflows');
