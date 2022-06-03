@@ -1,6 +1,7 @@
 import fs from 'fs/promises';
 import { stringify } from 'yaml';
 import { GitHubActionsConfig } from '@/repositories/gha';
+import { Stats } from 'fs';
 jest.mock('mkdirp');
 
 describe('🚓 GitHubActionsConfig', () => {
@@ -33,6 +34,7 @@ describe('🚓 GitHubActionsConfig', () => {
 
   describe('🚓 save', () => {
     it('👮 yaml にして指定のファイルで保存する', async () => {
+      jest.spyOn(fs, 'lstat').mockReturnValue(Promise.reject());
       const expectYaml = stringify(config, { singleQuote: true });
 
       const spyOfWriteFile = jest
@@ -46,6 +48,13 @@ describe('🚓 GitHubActionsConfig', () => {
         '.github/workflows/hoge.yaml',
         expectYaml
       );
+    });
+
+    it('👮ファイルが存在する場合は Error を吐く', async () => {
+      jest.spyOn(fs, 'lstat').mockReturnValue(Promise.resolve({} as Stats));
+
+      const gha = new GitHubActionsConfig(config);
+      await expect(gha.save('hoge.yaml')).rejects.toThrowError();
     });
   });
 });
