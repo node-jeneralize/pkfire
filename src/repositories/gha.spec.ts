@@ -1,7 +1,8 @@
-import { GitHubActionsConfig } from '@/repositories/gha';
-import mkdirp from 'mkdirp';
 import fs from 'fs/promises';
 import { stringify } from 'yaml';
+import { GitHubActionsConfig } from '@/repositories/gha';
+jest.mock('mkdirp');
+
 describe('🚓 GitHubActionsConfig', () => {
   const config = {
     name: 'hoge',
@@ -31,10 +32,7 @@ describe('🚓 GitHubActionsConfig', () => {
   });
 
   describe('🚓 save', () => {
-    jest.fn(mkdirp).mockReturnValue(Promise.resolve(''));
-
     it('👮 yaml にして指定のファイルで保存する', async () => {
-      jest.spyOn(fs, 'writeFile').mockReturnValue(Promise.reject());
       const expectYaml = stringify(config, { singleQuote: true });
 
       const spyOfWriteFile = jest
