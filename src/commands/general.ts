@@ -3,6 +3,7 @@ import { askLinterAndFormatter } from '@/questions/linterAndFormatter';
 import { askWhichPackageManager } from '@/questions/packageManager';
 import { PackageInstaller } from '@/repositories/packageInstaller';
 import { TSConfigJson } from '@/repositories/tsconfig';
+import { askUsingGitHubActions } from '@/questions/githubActions';
 
 /**
  * パラメータなどの引数なしで実行したときの挙動を実行する
@@ -11,6 +12,7 @@ export const runGeneralCommandJob = async () => {
   const packageManager = await askWhichPackageManager();
   const environment = await askUseTypeScript();
   const linterAndFormatter = await askLinterAndFormatter();
+  const shouldUseGitHubActions = await askUsingGitHubActions();
 
   //------------------------------------------------------------------------------
   // Package Installation
@@ -50,11 +52,26 @@ export const runGeneralCommandJob = async () => {
 
   if (environment.shouldWriteTSConfigJson) {
     const tsconfig = new TSConfigJson();
-    await tsconfig.save();
+
+    if (shouldUseGitHubActions) {
+      await Promise.all([
+        tsconfig.generateGitHubActionsConfig(packageManager),
+        tsconfig.save(),
+      ]);
+    } else {
+      await tsconfig.save();
+    }
   }
 
   if (linterAndFormatter.ESLint) {
-    await linterAndFormatter.ESLint.save();
+    if (shouldUseGitHubActions) {
+      await Promise.all([
+        linterAndFormatter.ESLint.generateGitHubActions(packageManager),
+        linterAndFormatter.ESLint.save(),
+      ]);
+    } else {
+      await linterAndFormatter.ESLint.save();
+    }
   }
 
   if (linterAndFormatter.Prettier) {
