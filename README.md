@@ -11,6 +11,7 @@ Node application developer toolchains installer CLI
 
 - 🖨️ Config file generating
 - 💼 Require packages install automaticity
+- 👷 Generate toolchains runner of GitHub Actions
 
 # 📦️ support packages
 

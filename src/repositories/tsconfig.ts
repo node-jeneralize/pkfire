@@ -1,6 +1,8 @@
 import { TSConfig } from 'pkg-types';
 import fs from 'fs/promises';
 import { isFileExists } from '@/helper/isFileExist';
+import { generateTypeCheckActionsConfig } from '@/helper/ghaConfigs';
+import { GitHubActionsConfig } from '@/repositories/gha';
 
 /**
  * tsconfig.json にまつわるものを管轄する class
@@ -39,5 +41,15 @@ export class TSConfigJson {
     } else {
       throw new Error('tsconfig.json file already exist!');
     }
+  }
+
+  /**
+   * typeCheck を GitHub Actions で実行するためのコンフィグを出力する
+   * @param packageManager 使用するパッケージマネージャ
+   */
+  async generateGitHubActionsConfig(packageManager: 'npm' | 'yarn') {
+    const config = generateTypeCheckActionsConfig(packageManager);
+    const { save: saveActionsConfig } = new GitHubActionsConfig(config);
+    await saveActionsConfig('typeCheck.yaml');
   }
 }
