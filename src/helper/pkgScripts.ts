@@ -2,8 +2,9 @@ import { PackageJson } from 'pkg-types';
 import { isFileExists } from './isFileExist';
 import { promises } from 'fs';
 
-interface PackageJsonWithScripts extends PackageJson {
+interface PackageJsonModified extends PackageJson {
   scripts?: Record<string, string>;
+  license?: string;
 }
 
 async function readPackageJSON(path: string) {
@@ -18,11 +19,19 @@ async function writePackageJSON(path: string, pkg: PackageJson) {
 export type PkgScript = 'typeCheck' | 'eslint' | 'prettier';
 
 export const writeScripts = async (scripts: PkgScript[]) => {
-  let pkg: PackageJson;
+  let pkg: PackageJsonModified;
   if (await isFileExists('./package.json')) {
     pkg = await readPackageJSON('./package.json');
   } else {
-    pkg = {};
+    pkg = {
+      name: '',
+      version: '0.0.0',
+      description: '',
+      main: 'index.js',
+      author: '',
+      license: 'UNLICENSED',
+      private: true,
+    };
   }
   if (scripts.includes('typeCheck')) {
     addTypeCheckScript(pkg);
@@ -38,14 +47,14 @@ export const writeScripts = async (scripts: PkgScript[]) => {
   writePackageJSON('./package.json', pkg);
 };
 
-export const addTypeCheckScript = (pkg: PackageJsonWithScripts) => {
+export const addTypeCheckScript = (pkg: PackageJsonModified) => {
   if (!pkg.scripts) {
     pkg.scripts = {};
   }
   pkg.scripts.typeCheck = 'tsc --noEmit';
 };
 
-export const addEslintScript = (pkg: PackageJsonWithScripts) => {
+export const addEslintScript = (pkg: PackageJsonModified) => {
   if (!pkg.scripts) {
     pkg.scripts = {};
   }
@@ -53,7 +62,7 @@ export const addEslintScript = (pkg: PackageJsonWithScripts) => {
   pkg.scripts['lint:js:fix'] = 'eslint --fix --ext .js,.ts .';
 };
 
-export const addPrettierScript = (pkg: PackageJsonWithScripts) => {
+export const addPrettierScript = (pkg: PackageJsonModified) => {
   if (!pkg.scripts) {
     pkg.scripts = {};
   }
@@ -61,7 +70,7 @@ export const addPrettierScript = (pkg: PackageJsonWithScripts) => {
   pkg.scripts['lint:code:fix'] = 'prettier --write .';
 };
 
-export const addLintScript = (pkg: PackageJsonWithScripts) => {
+export const addLintScript = (pkg: PackageJsonModified) => {
   if (!pkg.scripts) {
     return;
   }
@@ -75,7 +84,7 @@ export const addLintScript = (pkg: PackageJsonWithScripts) => {
   }
 };
 
-export const addLintFixScript = (pkg: PackageJsonWithScripts) => {
+export const addLintFixScript = (pkg: PackageJsonModified) => {
   if (!pkg.scripts) {
     return;
   }
