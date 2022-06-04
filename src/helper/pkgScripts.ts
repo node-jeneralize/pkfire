@@ -1,13 +1,18 @@
-import {
-  definePackageJSON,
-  PackageJson,
-  readPackageJSON,
-  writePackageJSON,
-} from 'pkg-types';
+import { PackageJson } from 'pkg-types';
 import { isFileExists } from './isFileExist';
+import { promises } from 'fs';
 
 interface PackageJsonWithScripts extends PackageJson {
   scripts?: Record<string, string>;
+}
+
+async function readPackageJSON(path: string) {
+  const blob = await promises.readFile(path, 'utf-8');
+  return JSON.parse(blob);
+}
+
+async function writePackageJSON(path: string, pkg: PackageJson) {
+  await promises.writeFile(path, JSON.stringify(pkg, null, 2) + '\n');
 }
 
 export type PkgScript = 'typeCheck' | 'eslint' | 'prettier';
@@ -17,7 +22,7 @@ export const writeScripts = async (scripts: PkgScript[]) => {
   if (await isFileExists('./package.json')) {
     pkg = await readPackageJSON('./package.json');
   } else {
-    pkg = definePackageJSON({});
+    pkg = {};
   }
   if (scripts.includes('typeCheck')) {
     addTypeCheckScript(pkg);
