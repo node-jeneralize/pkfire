@@ -4,7 +4,7 @@ import { askWhichPackageManager } from '@/questions/packageManager';
 import { PackageInstaller } from '@/repositories/packageInstaller';
 import { TSConfigJson } from '@/repositories/tsconfig';
 import { askUsingGitHubActions } from '@/questions/githubActions';
-import { PkgScript, writeScripts } from '@/helper/pkgScripts';
+import { PkgScriptWriter } from '@/helper/pkgScripts';
 
 /**
  * パラメータなどの引数なしで実行したときの挙動を実行する
@@ -19,14 +19,14 @@ export const runGeneralCommandJob = async () => {
   // Package Installation
   //------------------------------------------------------------------------------
   const packageInstaller = new PackageInstaller(packageManager);
-  // package.json scripts に追加するスクリプト
-  const pkgScripts: PkgScript[] = [];
+  // package.json scripts のライター
+  const pkg = new PkgScriptWriter();
 
   if (linterAndFormatter.ESLint) {
     // 必須パッケージを追加
     packageInstaller.addInstallPackage('eslint');
     // scripts 追加
-    pkgScripts.push('eslint');
+    pkg.addScript('eslint');
 
     // Prettier もいっしょに使う場合はルール競合回避のパッケージを追加, ESLint のコンフィグに追記
     if (linterAndFormatter.Prettier) {
@@ -47,19 +47,19 @@ export const runGeneralCommandJob = async () => {
   if (linterAndFormatter.Prettier) {
     packageInstaller.addInstallPackage('prettier');
     // scripts 追加
-    pkgScripts.push('prettier');
+    pkg.addScript('prettier');
   }
 
   if (environment.shouldUseTypeScriptFeatures) {
     // scripts 追加
-    pkgScripts.push('typeCheck');
+    pkg.addScript('typeCheck');
   }
 
   // パッケージのインストールを開始
   await packageInstaller.install();
 
   // package.json へ書き込み
-  await writeScripts(pkgScripts);
+  await pkg.writeScripts();
 
   //------------------------------------------------------------------------------
   // Config files generating
