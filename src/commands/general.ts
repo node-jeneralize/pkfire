@@ -55,6 +55,10 @@ export const runGeneralCommandJob = async () => {
     pkg.addScript('typeCheck');
   }
 
+  if (environment.shouldInstallTypeScript) {
+    packageInstaller.addInstallPackage('typescript');
+  }
+
   // パッケージのインストールを開始
   await packageInstaller.install();
 
