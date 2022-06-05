@@ -22,36 +22,42 @@ export const pkgIO = {
   writePackageJSON,
 };
 
-export type PkgScript = 'typeCheck' | 'eslint' | 'prettier';
+export type PkgScriptKind = 'typeCheck' | 'eslint' | 'prettier';
 
-export const writeScripts = async (scripts: PkgScript[]) => {
-  let pkg: PackageJsonModified;
-  if (await pkgIO.isFileExists('./package.json')) {
-    pkg = await pkgIO.readPackageJSON('./package.json');
-  } else {
-    pkg = {
-      name: '',
-      version: '0.0.0',
-      description: '',
-      main: 'index.js',
-      author: '',
-      license: 'UNLICENSED',
-      private: true,
-    };
+export class PkgScriptWriter {
+  scripts: PkgScriptKind[] = [];
+  addScript(kind: PkgScriptKind) {
+    this.scripts.push(kind);
   }
-  if (scripts.includes('typeCheck')) {
-    addTypeCheckScript(pkg);
+  async writeScripts() {
+    let pkg: PackageJsonModified;
+    if (await pkgIO.isFileExists('./package.json')) {
+      pkg = await pkgIO.readPackageJSON('./package.json');
+    } else {
+      pkg = {
+        name: '',
+        version: '0.0.0',
+        description: '',
+        main: 'index.js',
+        author: '',
+        license: 'UNLICENSED',
+        private: true,
+      };
+    }
+    if (this.scripts.includes('typeCheck')) {
+      addTypeCheckScript(pkg);
+    }
+    if (this.scripts.includes('eslint')) {
+      addEslintScript(pkg);
+    }
+    if (this.scripts.includes('prettier')) {
+      addPrettierScript(pkg);
+    }
+    addLintScript(pkg);
+    addLintFixScript(pkg);
+    await pkgIO.writePackageJSON('./package.json', pkg);
   }
-  if (scripts.includes('eslint')) {
-    addEslintScript(pkg);
-  }
-  if (scripts.includes('prettier')) {
-    addPrettierScript(pkg);
-  }
-  addLintScript(pkg);
-  addLintFixScript(pkg);
-  await pkgIO.writePackageJSON('./package.json', pkg);
-};
+}
 
 export const addTypeCheckScript = (pkg: PackageJsonModified) => {
   if (!pkg.scripts) {
