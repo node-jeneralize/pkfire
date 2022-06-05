@@ -16,12 +16,18 @@ async function writePackageJSON(path: string, pkg: PackageJson) {
   await promises.writeFile(path, JSON.stringify(pkg, null, 2) + '\n');
 }
 
+export const pkgIO = {
+  isFileExists,
+  readPackageJSON,
+  writePackageJSON,
+};
+
 export type PkgScript = 'typeCheck' | 'eslint' | 'prettier';
 
 export const writeScripts = async (scripts: PkgScript[]) => {
   let pkg: PackageJsonModified;
-  if (await isFileExists('./package.json')) {
-    pkg = await readPackageJSON('./package.json');
+  if (await pkgIO.isFileExists('./package.json')) {
+    pkg = await pkgIO.readPackageJSON('./package.json');
   } else {
     pkg = {
       name: '',
@@ -44,7 +50,7 @@ export const writeScripts = async (scripts: PkgScript[]) => {
   }
   addLintScript(pkg);
   addLintFixScript(pkg);
-  writePackageJSON('./package.json', pkg);
+  await pkgIO.writePackageJSON('./package.json', pkg);
 };
 
 export const addTypeCheckScript = (pkg: PackageJsonModified) => {
