@@ -43,8 +43,7 @@ export const runGeneralCommandJob = async () => {
     packageInstaller.addInstallPackage('prettier');
   }
 
-  // tsconfigJson を吐き出すってことは Node の環境で使うんでは？みたいなところがあるので追加
-  if (environment.shouldWriteTSConfigJson) {
+  if (environment.shouldInstallTypeScript) {
     packageInstaller.addInstallPackage('typescript');
   }
 
