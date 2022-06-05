@@ -1,5 +1,5 @@
 import { PackageJson } from 'pkg-types';
-import { isFileExists } from './isFileExist';
+import { isFileExists } from '@/helper/isFileExist';
 import { promises } from 'fs';
 
 interface PackageJsonModified extends PackageJson {
