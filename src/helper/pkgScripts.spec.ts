@@ -1,4 +1,4 @@
-import { writeScripts, pkgIO } from './pkgScripts';
+import { PkgScriptWriter, pkgIO } from '@/helper/pkgScripts';
 
 describe('pkgScripts', () => {
   const spyOnIsFileExist = jest.spyOn(pkgIO, 'isFileExists');
@@ -15,7 +15,9 @@ describe('pkgScripts', () => {
   });
 
   it('add typeCheck script', async () => {
-    await writeScripts(['typeCheck']);
+    const pkg = new PkgScriptWriter();
+    pkg.addScript('typeCheck');
+    await pkg.writeScripts();
     expect(spyOnWritePkg).toBeCalledWith('./package.json', {
       name: 'test',
       scripts: {
@@ -25,7 +27,9 @@ describe('pkgScripts', () => {
   });
 
   it('add eslint script', async () => {
-    await writeScripts(['eslint']);
+    const pkg = new PkgScriptWriter();
+    pkg.addScript('eslint');
+    await pkg.writeScripts();
     expect(spyOnWritePkg).toBeCalledWith('./package.json', {
       name: 'test',
       scripts: {
@@ -38,7 +42,9 @@ describe('pkgScripts', () => {
   });
 
   it('add prettier script', async () => {
-    await writeScripts(['prettier']);
+    const pkg = new PkgScriptWriter();
+    pkg.addScript('prettier');
+    await pkg.writeScripts();
     expect(spyOnWritePkg).toBeCalledWith('./package.json', {
       name: 'test',
       scripts: {
@@ -51,7 +57,10 @@ describe('pkgScripts', () => {
   });
 
   it('add eslint prettier script', async () => {
-    await writeScripts(['eslint', 'prettier']);
+    const pkg = new PkgScriptWriter();
+    pkg.addScript('eslint');
+    pkg.addScript('prettier');
+    await pkg.writeScripts();
     expect(spyOnWritePkg).toBeCalledWith('./package.json', {
       name: 'test',
       scripts: {
