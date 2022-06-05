@@ -10,7 +10,9 @@ describe('pkgScripts', () => {
   });
 
   const spyOnWritePkg = jest.spyOn(pkgIO, 'writePackageJSON');
-  spyOnWritePkg.mockImplementation(async () => {});
+  spyOnWritePkg.mockImplementation(async () => {
+    return;
+  });
 
   it('add typeCheck script', async () => {
     await writeScripts(['typeCheck']);
