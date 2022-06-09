@@ -1,7 +1,9 @@
-  <h1 align="center">project_kicker</h1>
+  <h1 align="center">pkfire</h1>
 
 ![NPM](https://img.shields.io/npm/l/project_kicker?style=flat-square)
 [![test](https://github.com/huequica/project_kicker/actions/workflows/jest.yaml/badge.svg)](https://github.com/huequica/project_kicker/actions/workflows/jest.yaml)
+
+> pkfire -> projecct kicking firely
 
 Node application developer toolchains installer CLI
 
