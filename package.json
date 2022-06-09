@@ -1,10 +1,10 @@
 {
-  "name": "project_kicker",
+  "name": "pkfire",
   "version": "0.1.0",
   "main": "dist/index.js",
   "license": "MIT",
   "description": "Node application developer toolchains installer CLI",
-  "homepage": "https://github.com/huequica/project_kicker",
+  "homepage": "https://github.com/huequica/pkfire",
   "private": false,
   "author": {
     "email": "dev@huequica.xyz",
@@ -13,10 +13,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/huequica/project_kicker"
+    "url": "https://github.com/huequica/pkfire"
   },
   "bin": {
-    "pk": "./bin/pk"
+    "pkfire": "./bin/pkfire"
   },
   "scripts": {
     "test": "jest",
