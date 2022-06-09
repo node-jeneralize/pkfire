@@ -16,7 +16,7 @@
     "url": "https://github.com/huequica/pkfire"
   },
   "bin": {
-    "pk": "./bin/pk"
+    "pkfire": "./bin/pkfire"
   },
   "scripts": {
     "test": "jest",

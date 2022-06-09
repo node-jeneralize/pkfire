@@ -7,7 +7,7 @@
 
 Node application developer toolchains installer CLI
 
-![pk](https://user-images.githubusercontent.com/40014236/169387347-02a5bf2f-006c-4d2e-b9e5-06ffc8415448.gif)
+![pkfire](https://user-images.githubusercontent.com/40014236/169387347-02a5bf2f-006c-4d2e-b9e5-06ffc8415448.gif)
 
 # ✨ features 
 
@@ -27,7 +27,7 @@ Node application developer toolchains installer CLI
 
 ```bash
 $ npm install -g project_kicker
-$ pk
+$ pkfire
 ```
 
 ```bash
