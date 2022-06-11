@@ -3,7 +3,7 @@
 ![NPM](https://img.shields.io/npm/l/project_kicker?style=flat-square)
 [![test](https://github.com/huequica/project_kicker/actions/workflows/jest.yaml/badge.svg)](https://github.com/huequica/project_kicker/actions/workflows/jest.yaml)
 
-> pkfire -> projecct kicking firely
+> pkfire -> project kicking firely
 
 Node application developer toolchains installer CLI
 
