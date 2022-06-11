@@ -3,6 +3,7 @@ import inquirer from 'inquirer';
 interface PromptAnswers {
   shouldUseTypeScriptFeatures: boolean;
   shouldWriteTSConfigJson: boolean;
+  shouldInstallTypeScript: boolean;
 }
 
 // 質問1つ目で得られる Object の型定義
@@ -13,6 +14,8 @@ type ShouldUseTypeScriptFeatures = Pick<
 >;
 
 type ShouldWriteTSConfigJson = Pick<PromptAnswers, 'shouldWriteTSConfigJson'>;
+
+type ShouldInstallPackage = Pick<PromptAnswers, 'shouldInstallTypeScript'>;
 
 /**
  * TypeScript を使用するかどうかを聞く
@@ -34,6 +37,7 @@ export const askUseTypeScript = async (): Promise<PromptAnswers> => {
     return {
       shouldUseTypeScriptFeatures: false,
       shouldWriteTSConfigJson: false,
+      shouldInstallTypeScript: false,
     };
   }
 
@@ -49,8 +53,18 @@ export const askUseTypeScript = async (): Promise<PromptAnswers> => {
       },
     ]);
 
+  const { shouldInstallTypeScript } =
+    await inquirer.prompt<ShouldInstallPackage>([
+      {
+        type: 'confirm',
+        name: 'shouldInstallTypeScript',
+        message: 'Should install Typescript package?',
+      },
+    ]);
+
   return {
     shouldUseTypeScriptFeatures,
     shouldWriteTSConfigJson,
+    shouldInstallTypeScript,
   };
 };
