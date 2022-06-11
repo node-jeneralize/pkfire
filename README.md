@@ -26,7 +26,7 @@ Node application developer toolchains installer CLI
 # 🧑‍💻 get started(WIP)
 
 ```bash
-$ npm install -g project_kicker
+$ npm install -g pkfire
 $ pkfire
 ```
 
