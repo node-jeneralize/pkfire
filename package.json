@@ -4,7 +4,7 @@
   "main": "dist/index.js",
   "license": "MIT",
   "description": "Node application developer toolchains installer CLI",
-  "homepage": "https://github.com/huequica/pkfire",
+  "homepage": "https://github.com/node-jeneralize/pkfire",
   "private": false,
   "author": {
     "email": "dev@huequica.xyz",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/huequica/pkfire"
+    "url": "https://github.com/node-jeneralize/pkfire"
   },
   "bin": {
     "pkfire": "./bin/pkfire"
