@@ -1,0 +1,29 @@
+name: release to npmjs.com
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - '!*'
+
+jobs: 
+  release:
+    name: check version, add tag and release
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v1
+
+      - name: setup node
+        uses: actions/setup-node@v3
+        with: 
+          node-version: '16.x'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: install modules
+        run: yarn --frozen-lockfile
+
+      - name: publish
+        run: yarn publish
+        env: 
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
