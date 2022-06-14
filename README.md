@@ -5,17 +5,17 @@
 
 > pkfire -> project kicking firely
 
-Node application developer toolchains installer CLI
+The CLI toolchain installer for Node application developers
 
 ![pkfire](https://user-images.githubusercontent.com/40014236/169387347-02a5bf2f-006c-4d2e-b9e5-06ffc8415448.gif)
 
-# ✨ features 
+# ✨ FEATURES 
 
-- 🖨️ Config file generating
-- 💼 Require packages install automaticity
-- 👷 Generate toolchains runner of GitHub Actions
+- 🖨️ Generate configrartion files
+- 💼 Install required packages automatically
+- 👷 Generate toolchain runner of GitHub Actions
 
-# 📦️ support packages
+# 📦️ SUPPORT PACKAGES
 
 - ESLint
   - @typescript-eslint/eslint-plugin
@@ -23,7 +23,7 @@ Node application developer toolchains installer CLI
   - eslint-config-prettier
 - Prettier
 
-# 🧑‍💻 get started(WIP)
+# 🧑‍💻 GET STARTED
 
 ```bash
 $ npm install -g pkfire
