@@ -23,7 +23,7 @@ The CLI toolchain installer for Node application developers
   - eslint-config-prettier
 - Prettier
 
-# 🧑‍💻 GET STARTED(WIP)
+# 🧑‍💻 GET STARTED
 
 ```bash
 $ npm install -g pkfire
