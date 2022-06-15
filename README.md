@@ -22,6 +22,8 @@ The CLI toolchain installer for Node application developers
   - @typescript-eslint/parser
   - eslint-config-prettier
 - Prettier
+- TypeScript
+
 
 # 🧑‍💻 GET STARTED
 
