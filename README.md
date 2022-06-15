@@ -1,7 +1,7 @@
   <h1 align="center">pkfire</h1>
 
 ![NPM](https://img.shields.io/npm/l/pkfire?style=flat-square)
-[![test](https://github.com/huequica/project_kicker/actions/workflows/jest.yaml/badge.svg)](https://github.com/huequica/project_kicker/actions/workflows/jest.yaml)
+[![test](https://github.com/node-jeneralize/pkfire/actions/workflows/jest.yaml/badge.svg)](https://github.com/node-jeneralize/pkfire/actions/workflows/jest.yaml)
 
 > pkfire -> project kicking firely
 
