@@ -63,6 +63,7 @@ export const runGeneralCommandJob = async () => {
     packageInstaller.addInstallPackage('jest');
 
     if (environment.shouldUseTypeScriptFeatures) {
+      toolchains.Jest.enableTypeScript();
       packageInstaller.addInstallPackage(['@types/jest', 'ts-node', 'ts-jest']);
     }
   }
@@ -103,6 +104,17 @@ export const runGeneralCommandJob = async () => {
 
   if (toolchains.Prettier) {
     await toolchains.Prettier.save();
+  }
+
+  if (toolchains.Jest) {
+    if (shouldUseGitHubActions) {
+      await Promise.all([
+        toolchains.Jest.generateGitHubActions(packageManager),
+        toolchains.Jest.save(),
+      ]);
+    } else {
+      await toolchains.Jest.save();
+    }
   }
 
   console.log('Done All settings!');
