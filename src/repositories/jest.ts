@@ -1,6 +1,5 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { execa } from 'execa';
 import { generateJestActionsConfig } from '@/helper/ghaConfigs';
 import { GitHubActionsConfig } from '@/repositories/gha';
 
@@ -14,10 +13,18 @@ export class Jest {
    * jest.config.ts を実行時のカレントディレクトリにコピーする
    * @private
    */
-  private static copyJestConfigTs(): Promise<void> {
-    // build 後のファイルからの相対パスのため1つ後ろでOK
-    const jestConfigTsPath = path.resolve(__dirname, '../jest.config.ts');
-    return fs.copyFile(jestConfigTsPath, 'jest.config.ts');
+  private static copyJestConfig(shouldUseTS: boolean): Promise<void> {
+    if (shouldUseTS) {
+      // build 後のファイルからの相対パスのため1つ後ろでOK
+      const jestConfigTsPath = path.resolve(__dirname, '../jest.config.ts');
+      return fs.copyFile(jestConfigTsPath, 'jest.config.ts');
+    } else {
+      const jestConfigJsPath = path.resolve(
+        __dirname,
+        '../jest.config.js.template'
+      );
+      return fs.copyFile(jestConfigJsPath, 'jest.config.js');
+    }
   }
 
   /**
@@ -32,11 +39,9 @@ export class Jest {
    */
   async save() {
     if (this.shouldUseTypeScript) {
-      await Jest.copyJestConfigTs();
+      await Jest.copyJestConfig(true);
     } else {
-      // jest --init で出来合いの config を生成させる。
-      // 今後ちゃんと jest.config.js を書いてコピーさせるのはあり
-      await execa('npx', ['jest', '--init']);
+      await Jest.copyJestConfig(false);
     }
   }
 
