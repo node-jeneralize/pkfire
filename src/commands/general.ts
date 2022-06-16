@@ -61,6 +61,7 @@ export const runGeneralCommandJob = async () => {
 
   if (toolchains.Jest) {
     packageInstaller.addInstallPackage('jest');
+    pkg.addScript('test');
 
     if (environment.shouldUseTypeScriptFeatures) {
       toolchains.Jest.enableTypeScript();
