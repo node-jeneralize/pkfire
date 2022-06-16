@@ -59,6 +59,14 @@ export const runGeneralCommandJob = async () => {
     packageInstaller.addInstallPackage('typescript');
   }
 
+  if (toolchains.Jest) {
+    packageInstaller.addInstallPackage('jest');
+
+    if (environment.shouldUseTypeScriptFeatures) {
+      packageInstaller.addInstallPackage(['@types/jest', 'ts-node', 'ts-jest']);
+    }
+  }
+
   // パッケージのインストールを開始
   await packageInstaller.install();
 
