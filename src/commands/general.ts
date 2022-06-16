@@ -12,7 +12,7 @@ import { PkgScriptWriter } from '@/helper/pkgScripts';
 export const runGeneralCommandJob = async () => {
   const packageManager = await askWhichPackageManager();
   const environment = await askUseTypeScript();
-  const linterAndFormatter = await askToolchains();
+  const toolchains = await askToolchains();
   const shouldUseGitHubActions = await askUsingGitHubActions();
 
   //------------------------------------------------------------------------------
@@ -22,16 +22,16 @@ export const runGeneralCommandJob = async () => {
   // package.json scripts のライター
   const pkg = new PkgScriptWriter();
 
-  if (linterAndFormatter.ESLint) {
+  if (toolchains.ESLint) {
     // 必須パッケージを追加
     packageInstaller.addInstallPackage('eslint');
     // scripts 追加
     pkg.addScript('eslint');
 
     // Prettier もいっしょに使う場合はルール競合回避のパッケージを追加, ESLint のコンフィグに追記
-    if (linterAndFormatter.Prettier) {
+    if (toolchains.Prettier) {
       packageInstaller.addInstallPackage('eslint-config-prettier');
-      linterAndFormatter.ESLint.enablePrettierFeature();
+      toolchains.ESLint.enablePrettierFeature();
     }
 
     // TS といっしょに使う場合は追加, ESLint のコンフィグに追記
@@ -40,11 +40,11 @@ export const runGeneralCommandJob = async () => {
         '@typescript-eslint/eslint-plugin',
         '@typescript-eslint/parser',
       ]);
-      linterAndFormatter.ESLint.enableTypeScriptFeatures();
+      toolchains.ESLint.enableTypeScriptFeatures();
     }
   }
 
-  if (linterAndFormatter.Prettier) {
+  if (toolchains.Prettier) {
     packageInstaller.addInstallPackage('prettier');
     // scripts 追加
     pkg.addScript('prettier');
@@ -82,19 +82,19 @@ export const runGeneralCommandJob = async () => {
     }
   }
 
-  if (linterAndFormatter.ESLint) {
+  if (toolchains.ESLint) {
     if (shouldUseGitHubActions) {
       await Promise.all([
-        linterAndFormatter.ESLint.generateGitHubActions(packageManager),
-        linterAndFormatter.ESLint.save(),
+        toolchains.ESLint.generateGitHubActions(packageManager),
+        toolchains.ESLint.save(),
       ]);
     } else {
-      await linterAndFormatter.ESLint.save();
+      await toolchains.ESLint.save();
     }
   }
 
-  if (linterAndFormatter.Prettier) {
-    await linterAndFormatter.Prettier.save();
+  if (toolchains.Prettier) {
+    await toolchains.Prettier.save();
   }
 
   console.log('Done All settings!');
