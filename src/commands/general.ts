@@ -1,5 +1,5 @@
 import { askUseTypeScript } from '@/questions/useTypeScript';
-import { askLinterAndFormatter } from '@/questions/linterAndFormatter';
+import { askToolchains } from '@/questions/toolchains';
 import { askWhichPackageManager } from '@/questions/packageManager';
 import { PackageInstaller } from '@/repositories/packageInstaller';
 import { TSConfigJson } from '@/repositories/tsconfig';
@@ -12,7 +12,7 @@ import { PkgScriptWriter } from '@/helper/pkgScripts';
 export const runGeneralCommandJob = async () => {
   const packageManager = await askWhichPackageManager();
   const environment = await askUseTypeScript();
-  const linterAndFormatter = await askLinterAndFormatter();
+  const linterAndFormatter = await askToolchains();
   const shouldUseGitHubActions = await askUsingGitHubActions();
 
   //------------------------------------------------------------------------------

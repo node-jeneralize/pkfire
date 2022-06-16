@@ -16,7 +16,7 @@ interface ReturnObject {
  * Linter や Formatter を使うかどうか質問する
  * @return ESLint や Prettier のどれを使うか, 使う場合はインスタンスが内包される
  */
-export const askLinterAndFormatter = async (): Promise<ReturnObject> => {
+export const askToolchains = async (): Promise<ReturnObject> => {
   const question: QuestionCollection = [
     {
       type: 'checkbox',
