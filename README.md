@@ -23,7 +23,10 @@ The CLI toolchain installer for Node application developers
   - eslint-config-prettier
 - Prettier
 - TypeScript
-
+- jest
+  - ts-node
+  - ts-jest
+  - @types/jest
 
 # 🧑‍💻 GET STARTED
 
