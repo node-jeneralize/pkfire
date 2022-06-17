@@ -1,0 +1,8 @@
+module.exports = {
+  testMatch: ["/**/*.spec.js"],
+  collectCoverage: true,
+  coverageDirectory: "coverage",
+  moduleNameMapper: {
+    "^@/(.*)$": "<rootDir>/src/$1",
+  },
+};

@@ -1,6 +1,6 @@
 {
   "name": "pkfire",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "main": "dist/index.js",
   "license": "MIT",
   "description": "Node application developer toolchains installer CLI",
