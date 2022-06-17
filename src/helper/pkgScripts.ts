@@ -22,13 +22,15 @@ export const pkgIO = {
   writePackageJSON,
 };
 
-export type PkgScriptKind = 'typeCheck' | 'eslint' | 'prettier';
+export type PkgScriptKind = 'typeCheck' | 'eslint' | 'prettier' | 'test';
 
 export class PkgScriptWriter {
   scripts: PkgScriptKind[] = [];
+
   addScript(kind: PkgScriptKind) {
     this.scripts.push(kind);
   }
+
   async writeScripts() {
     let pkg: PackageJsonModified;
     if (await pkgIO.isFileExists('./package.json')) {
@@ -53,6 +55,10 @@ export class PkgScriptWriter {
     if (this.scripts.includes('prettier')) {
       addPrettierScript(pkg);
     }
+    if (this.scripts.includes('test')) {
+      addJestScript(pkg);
+    }
+
     addLintScript(pkg);
     addLintFixScript(pkg);
     await pkgIO.writePackageJSON('./package.json', pkg);
@@ -64,6 +70,13 @@ export const addTypeCheckScript = (pkg: PackageJsonModified) => {
     pkg.scripts = {};
   }
   pkg.scripts.typeCheck = 'tsc --noEmit';
+};
+
+export const addJestScript = (pkg: PackageJsonModified) => {
+  if (!pkg.scripts) {
+    pkg.scripts = {};
+  }
+  pkg.scripts.test = 'jest';
 };
 
 export const addEslintScript = (pkg: PackageJsonModified) => {
