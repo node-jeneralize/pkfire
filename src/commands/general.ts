@@ -24,28 +24,29 @@ export const runGeneralCommandJob = async () => {
 
   if (toolchains.ESLint) {
     // 必須パッケージを追加
-    packageInstaller.addInstallPackage('eslint');
+    packageInstaller.addInstallPackage(toolchains.ESLint.dependencies.always);
     // scripts 追加
     pkg.addScript('eslint');
 
     // Prettier もいっしょに使う場合はルール競合回避のパッケージを追加, ESLint のコンフィグに追記
     if (toolchains.Prettier) {
-      packageInstaller.addInstallPackage('eslint-config-prettier');
+      packageInstaller.addInstallPackage(
+        toolchains.ESLint.dependencies.useWithPrettier
+      );
       toolchains.ESLint.enablePrettierFeature();
     }
 
     // TS といっしょに使う場合は追加, ESLint のコンフィグに追記
     if (environment.shouldUseTypeScriptFeatures) {
-      packageInstaller.addInstallPackage([
-        '@typescript-eslint/eslint-plugin',
-        '@typescript-eslint/parser',
-      ]);
+      packageInstaller.addInstallPackage(
+        toolchains.ESLint.dependencies.useWithTypeScript
+      );
       toolchains.ESLint.enableTypeScriptFeatures();
     }
   }
 
   if (toolchains.Prettier) {
-    packageInstaller.addInstallPackage('prettier');
+    packageInstaller.addInstallPackage(toolchains.Prettier.dependencies.always);
     // scripts 追加
     pkg.addScript('prettier');
   }
@@ -56,16 +57,18 @@ export const runGeneralCommandJob = async () => {
   }
 
   if (environment.shouldInstallTypeScript) {
-    packageInstaller.addInstallPackage('typescript');
+    packageInstaller.addInstallPackage(new TSConfigJson().dependencies.always);
   }
 
   if (toolchains.Jest) {
-    packageInstaller.addInstallPackage('jest');
+    packageInstaller.addInstallPackage(toolchains.Jest.dependencies.always);
     pkg.addScript('test');
 
     if (environment.shouldUseTypeScriptFeatures) {
       toolchains.Jest.enableTypeScript();
-      packageInstaller.addInstallPackage(['@types/jest', 'ts-node', 'ts-jest']);
+      packageInstaller.addInstallPackage(
+        toolchains.Jest.dependencies.useWithTypeScript
+      );
     }
   }
 
