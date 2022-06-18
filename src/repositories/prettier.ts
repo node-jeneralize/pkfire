@@ -1,12 +1,17 @@
 import type { Options } from 'prettier';
 import fs from 'fs/promises';
 import { isFileExists } from '@/helper/isFileExist';
+import { Toolchain } from '@/repositories/core/toolchain';
 
 /**
  * .prettierrc にまつわるものを管理する class
  */
-export class PrettierRc {
-  public option: Options = {
+export class PrettierRc implements Toolchain {
+  dependencies = {
+    always: 'prettier',
+  };
+
+  public config: Options = {
     semi: true,
     singleQuote: true,
     tabWidth: 2,
@@ -20,7 +25,7 @@ export class PrettierRc {
    */
   async save() {
     // 第3引数が pretty にする設定, 2 を渡すとスペース2つで見やすくなる
-    const stringifyOptions = JSON.stringify(this.option, null, 2) + '\n';
+    const stringifyOptions = JSON.stringify(this.config, null, 2) + '\n';
     const isPrettierRcExist = await isFileExists('.prettierrc');
 
     // ファイルが存在しなければ writeFile で生成

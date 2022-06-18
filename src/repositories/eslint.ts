@@ -1,6 +1,7 @@
 import { Linter } from 'eslint';
 import { stringify } from 'yaml';
 import fs from 'fs/promises';
+import { Toolchain } from '@/repositories/core/toolchain';
 import { isFileExists } from '@/helper/isFileExist';
 import { generateESLintActionsConfig } from '@/helper/ghaConfigs';
 import { GitHubActionsConfig } from '@/repositories/gha';
@@ -8,7 +9,16 @@ import { GitHubActionsConfig } from '@/repositories/gha';
 type RulesRecord = Linter.RulesRecord;
 type BaseConfig = Linter.Config;
 
-export class ESLintRc {
+export class ESLintRc implements Toolchain {
+  dependencies = {
+    always: 'eslint',
+    useWithPrettier: 'eslint-config-prettier',
+    useWithTypeScript: [
+      '@typescript-eslint/eslint-plugin',
+      '@typescript-eslint/parser',
+    ],
+  };
+
   config: BaseConfig = {
     root: true,
     env: {
