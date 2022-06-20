@@ -17,6 +17,13 @@ export class ESLintRc implements Toolchain {
       '@typescript-eslint/eslint-plugin',
       '@typescript-eslint/parser',
     ],
+    useWithNuxtJs: [
+      '@nuxtjs/eslint-module',
+      'eslint-plugin-nuxt',
+      'eslint-plugin-vue',
+      '@babel/eslint-parser',
+    ],
+    useWithNuxtAndTS: '@nuxtjs/eslint-config-typescript',
   };
 
   config: BaseConfig = {
