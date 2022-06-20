@@ -83,7 +83,7 @@ export class ESLintRc implements Toolchain {
    */
   enableNuxtFeatures() {
     if (Array.isArray(this.config.extends)) {
-      this.config.extends.push('plugin:recommended');
+      this.config.extends.push('plugin:nuxt/recommended');
     }
     if (this.config.env) {
       this.config.env.browser = true;
