@@ -79,6 +79,21 @@ export class ESLintRc implements Toolchain {
   }
 
   /**
+   * Nuxt 向けの設定を有効する
+   */
+  enableNuxtFeatures() {
+    if (Array.isArray(this.config.extends)) {
+      this.config.extends.push('plugin:recommended');
+    }
+  }
+
+  enableNuxtAndTypeScriptFeatures() {
+    if (Array.isArray(this.config.extends)) {
+      this.config.extends.push('@nuxtjs/eslint-config-typescript');
+    }
+  }
+
+  /**
    * rules に渡したルールをコンフィグに追加する
    * @param rules ルールのオブジェクト単体, もしくは複数追加の場合 Array
    */
