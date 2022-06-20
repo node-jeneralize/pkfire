@@ -18,7 +18,7 @@ export const runGeneralCommandJob = async () => {
   // フロントエンドの設定ファイルが1つでもあればいくつかの質問をスキップする
   const tsPromptOption: Parameters<typeof askUseTypeScript>[0] | undefined =
     checkObjectContainTrue(frontend)
-      ? { skipGenerate: false, skipInstall: false }
+      ? { skipGenerate: true, skipInstall: true }
       : undefined;
   const environment = await askUseTypeScript(tsPromptOption);
 
