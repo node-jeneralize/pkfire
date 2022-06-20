@@ -3,13 +3,13 @@ import fs from 'fs/promises';
 import { isFileExists } from '@/helper/isFileExist';
 import { generateTypeCheckActionsConfig } from '@/helper/ghaConfigs';
 import { GitHubActionsConfig } from '@/repositories/gha';
-import { Toolchain } from '@/repositories/core/toolchain';
+import { Dependencies, Toolchain } from '@/repositories/core/toolchain';
 
 /**
  * tsconfig.json にまつわるものを管轄する class
  */
 export class TSConfigJson implements Toolchain {
-  dependencies = {
+  dependencies: Readonly<Dependencies> = {
     always: 'typescript',
   };
 

@@ -1,13 +1,13 @@
 import type { Options } from 'prettier';
 import fs from 'fs/promises';
 import { isFileExists } from '@/helper/isFileExist';
-import { Toolchain } from '@/repositories/core/toolchain';
+import { Dependencies, Toolchain } from '@/repositories/core/toolchain';
 
 /**
  * .prettierrc にまつわるものを管理する class
  */
 export class PrettierRc implements Toolchain {
-  dependencies = {
+  dependencies: Readonly<Dependencies> = {
     always: 'prettier',
   };
 
