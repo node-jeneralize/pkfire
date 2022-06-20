@@ -5,13 +5,23 @@ import { PackageInstaller } from '@/repositories/packageInstaller';
 import { TSConfigJson } from '@/repositories/tsconfig';
 import { askUsingGitHubActions } from '@/questions/githubActions';
 import { PkgScriptWriter } from '@/helper/pkgScripts';
+import { checkObjectContainTrue } from '@/helper/checkObjectContainTrue';
+import { detectFrontConfigFile } from '@/questions/detectFrontConfigFile';
 
 /**
  * パラメータなどの引数なしで実行したときの挙動を実行する
  */
 export const runGeneralCommandJob = async () => {
   const packageManager = await askWhichPackageManager();
-  const environment = await askUseTypeScript();
+  const frontend = await detectFrontConfigFile();
+
+  // フロントエンドの設定ファイルが1つでもあればいくつかの質問をスキップする
+  const tsPromptOption: Parameters<typeof askUseTypeScript>[0] | undefined =
+    checkObjectContainTrue(frontend)
+      ? { skipGenerate: false, skipInstall: false }
+      : undefined;
+  const environment = await askUseTypeScript(tsPromptOption);
+
   const toolchains = await askToolchains();
   const shouldUseGitHubActions = await askUsingGitHubActions();
 
@@ -42,6 +52,21 @@ export const runGeneralCommandJob = async () => {
         toolchains.ESLint.dependencies.useWithTypeScript
       );
       toolchains.ESLint.enableTypeScriptFeatures();
+    }
+
+    // Nuxt と併用する場合は ESLint に設定を追加する
+    if (frontend.nuxt) {
+      toolchains.ESLint.enableNuxtFeatures();
+      packageInstaller.addInstallPackage(
+        toolchains.ESLint.dependencies.useWithNuxtJs
+      );
+
+      if (environment.shouldUseTypeScriptFeatures) {
+        toolchains.ESLint.enableNuxtAndTypeScriptFeatures();
+        packageInstaller.addInstallPackage(
+          toolchains.ESLint.dependencies.useWithNuxtAndTS
+        );
+      }
     }
   }
 
