@@ -90,6 +90,9 @@ export class ESLintRc implements Toolchain {
     }
   }
 
+  /**
+   * Nuxt と TypeScript を併用するときの設定を追加する
+   */
   enableNuxtAndTypeScriptFeatures() {
     if (Array.isArray(this.config.extends)) {
       this.config.extends.push('@nuxtjs/eslint-config-typescript');
