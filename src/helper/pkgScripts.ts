@@ -20,32 +20,30 @@ export const pkgIO = {
   isFileExists,
   readPackageJSON,
   writePackageJSON,
-};
+} as const;
 
 export type PkgScriptKind = 'typeCheck' | 'eslint' | 'prettier' | 'test';
 
 export class PkgScriptWriter {
   scripts: PkgScriptKind[] = [];
 
+  /**
+   * writeScriptsで書き出すためのスクリプトを追加する。
+   * @param kind PkgScriptKind 対応スクリプトをユニオン型で表現している。
+   */
   addScript(kind: PkgScriptKind) {
     this.scripts.push(kind);
   }
 
+  /**
+   * package.jsonにscriptsを書き出す。
+   */
   async writeScripts() {
-    let pkg: PackageJsonModified;
-    if (await pkgIO.isFileExists('./package.json')) {
-      pkg = await pkgIO.readPackageJSON('./package.json');
-    } else {
-      pkg = {
-        name: '',
-        version: '0.0.0',
-        description: '',
-        main: 'index.js',
-        author: '',
-        license: 'UNLICENSED',
-        private: true,
-      };
+    if (!(await pkgIO.isFileExists('./package.json'))) {
+      throw new Error('package.json not found');
     }
+
+    const pkg = await pkgIO.readPackageJSON('./package.json');
     if (this.scripts.includes('typeCheck')) {
       addTypeCheckScript(pkg);
     }
@@ -95,6 +93,10 @@ export const addPrettierScript = (pkg: PackageJsonModified) => {
   pkg.scripts['lint:code:fix'] = 'prettier --write .';
 };
 
+/**
+ * lint:js lint:codeの組み合わせからコマンドを生成する。
+ * @param pkg PackageJsonModified
+ */
 export const addLintScript = (pkg: PackageJsonModified) => {
   if (!pkg.scripts) {
     return;
@@ -109,6 +111,10 @@ export const addLintScript = (pkg: PackageJsonModified) => {
   }
 };
 
+/**
+ * lint:js:fix lint:code:fixの組み合わせからコマンドを生成する。
+ * @param pkg PackageJsonModified
+ */
 export const addLintFixScript = (pkg: PackageJsonModified) => {
   if (!pkg.scripts) {
     return;
