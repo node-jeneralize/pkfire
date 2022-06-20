@@ -105,6 +105,9 @@ export const runGeneralCommandJob = async () => {
     }
   }
 
+  // イニシャライズを試行
+  await packageInstaller.initialize();
+
   // パッケージのインストールを開始
   await packageInstaller.install();
 
