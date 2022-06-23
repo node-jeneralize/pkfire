@@ -17,6 +17,13 @@ export class ESLintRc implements Toolchain {
       '@typescript-eslint/eslint-plugin',
       '@typescript-eslint/parser',
     ],
+    useWithNuxtJs: [
+      '@nuxtjs/eslint-module',
+      'eslint-plugin-nuxt',
+      'eslint-plugin-vue',
+      '@babel/eslint-parser',
+    ],
+    useWithNuxtAndTS: '@nuxtjs/eslint-config-typescript',
   };
 
   config: BaseConfig = {
@@ -69,6 +76,27 @@ export class ESLintRc implements Toolchain {
    */
   enablePrettierFeature() {
     this.isEnablePrettierFeature = true;
+  }
+
+  /**
+   * Nuxt 向けの設定を有効する
+   */
+  enableNuxtFeatures() {
+    if (Array.isArray(this.config.extends)) {
+      this.config.extends.push('plugin:nuxt/recommended');
+    }
+    if (this.config.env) {
+      this.config.env.browser = true;
+    }
+  }
+
+  /**
+   * Nuxt と TypeScript を併用するときの設定を追加する
+   */
+  enableNuxtAndTypeScriptFeatures() {
+    if (Array.isArray(this.config.extends)) {
+      this.config.extends.push('@nuxtjs/eslint-config-typescript');
+    }
   }
 
   /**

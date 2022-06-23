@@ -24,6 +24,38 @@ describe('🚓 ESLintRc', () => {
     });
   });
 
+  describe('🚓 enableNuxtFeatures', () => {
+    it('👮‍ 実行すると env.browser と extends が設定される', () => {
+      const eslintrc = new ESLintRc();
+      eslintrc.enableNuxtFeatures();
+
+      const expectResults = {
+        env: {
+          es6: true,
+          node: true,
+          browser: true,
+        },
+        extends: ['eslint:recommended', 'plugin:nuxt/recommended'],
+      };
+
+      expect(eslintrc.config.env).toStrictEqual(expectResults.env);
+      expect(eslintrc.config.extends).toStrictEqual(expectResults.extends);
+    });
+  });
+
+  describe('🚓 enableNuxtAndTypeScriptFeatures', () => {
+    it('👮‍ 実行すると extends が設定される', () => {
+      const eslintrc = new ESLintRc();
+      eslintrc.enableNuxtAndTypeScriptFeatures();
+
+      const expectResults = {
+        extends: ['eslint:recommended', '@nuxtjs/eslint-config-typescript'],
+      };
+
+      expect(eslintrc.config.extends).toStrictEqual(expectResults.extends);
+    });
+  });
+
   describe('🚓 enablePrettierFeature', () => {
     it('👮 有効にして save() を実行すると extends の末尾に prettier が存在する', async () => {
       jest.spyOn(fs, 'lstat').mockImplementation(() => Promise.reject());
