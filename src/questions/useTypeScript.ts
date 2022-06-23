@@ -17,11 +17,18 @@ type ShouldWriteTSConfigJson = Pick<PromptAnswers, 'shouldWriteTSConfigJson'>;
 
 type ShouldInstallPackage = Pick<PromptAnswers, 'shouldInstallTypeScript'>;
 
+interface PromptOptions {
+  skipGenerate: boolean;
+  skipInstall: boolean;
+}
+
 /**
  * TypeScript を使用するかどうかを聞く
  * @return TS を使用するか, tsconfig.json を生成するか
  */
-export const askUseTypeScript = async (): Promise<PromptAnswers> => {
+export const askUseTypeScript = async (
+  options?: PromptOptions
+): Promise<PromptAnswers> => {
   // TypeScriptの機能自体を使用するか質問
   const { shouldUseTypeScriptFeatures } =
     await inquirer.prompt<ShouldUseTypeScriptFeatures>([
@@ -43,24 +50,31 @@ export const askUseTypeScript = async (): Promise<PromptAnswers> => {
 
   // true だった場合は tsconfig の生成をするか質問
   // Next などはフレームワーク側で tsconfig.json を管理しているので N と答えるよう促す
-  const { shouldWriteTSConfigJson } =
-    await inquirer.prompt<ShouldWriteTSConfigJson>([
-      {
-        type: 'confirm',
-        name: 'shouldWriteTSConfigJson',
-        message:
-          'Should generate tsconfig.json? (If you use to Next, Nuxt etc... Answer "N")',
-      },
-    ]);
+  // また、スキップオプションが有効な場合は false を入れる
+  const { shouldWriteTSConfigJson } = (options ?? { skipGenerate: false })
+    .skipGenerate
+    ? { shouldWriteTSConfigJson: false }
+    : await inquirer.prompt<ShouldWriteTSConfigJson>([
+        {
+          type: 'confirm',
+          name: 'shouldWriteTSConfigJson',
+          message:
+            'Should generate tsconfig.json? (If you use to Next, Nuxt etc... Answer "N")',
+        },
+      ]);
 
-  const { shouldInstallTypeScript } =
-    await inquirer.prompt<ShouldInstallPackage>([
-      {
-        type: 'confirm',
-        name: 'shouldInstallTypeScript',
-        message: 'Should install Typescript package?',
-      },
-    ]);
+  // typescript のパッケージをインストールするかどうか質問
+  // スキップオプションが有効な場合は false を入れる
+  const { shouldInstallTypeScript } = (options ?? { skipInstall: false })
+    .skipInstall
+    ? { shouldInstallTypeScript: false }
+    : await inquirer.prompt<ShouldInstallPackage>([
+        {
+          type: 'confirm',
+          name: 'shouldInstallTypeScript',
+          message: 'Should install Typescript package?',
+        },
+      ]);
 
   return {
     shouldUseTypeScriptFeatures,

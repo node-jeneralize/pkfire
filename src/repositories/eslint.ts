@@ -1,6 +1,7 @@
 import { Linter } from 'eslint';
 import { stringify } from 'yaml';
 import fs from 'fs/promises';
+import { Dependencies, Toolchain } from '@/repositories/core/toolchain';
 import { isFileExists } from '@/helper/isFileExist';
 import { generateESLintActionsConfig } from '@/helper/ghaConfigs';
 import { GitHubActionsConfig } from '@/repositories/gha';
@@ -8,7 +9,23 @@ import { GitHubActionsConfig } from '@/repositories/gha';
 type RulesRecord = Linter.RulesRecord;
 type BaseConfig = Linter.Config;
 
-export class ESLintRc {
+export class ESLintRc implements Toolchain {
+  dependencies: Readonly<Dependencies> = {
+    always: 'eslint',
+    useWithPrettier: 'eslint-config-prettier',
+    useWithTypeScript: [
+      '@typescript-eslint/eslint-plugin',
+      '@typescript-eslint/parser',
+    ],
+    useWithNuxtJs: [
+      '@nuxtjs/eslint-module',
+      'eslint-plugin-nuxt',
+      'eslint-plugin-vue',
+      '@babel/eslint-parser',
+    ],
+    useWithNuxtAndTS: '@nuxtjs/eslint-config-typescript',
+  };
+
   config: BaseConfig = {
     root: true,
     env: {
@@ -59,6 +76,27 @@ export class ESLintRc {
    */
   enablePrettierFeature() {
     this.isEnablePrettierFeature = true;
+  }
+
+  /**
+   * Nuxt 向けの設定を有効する
+   */
+  enableNuxtFeatures() {
+    if (Array.isArray(this.config.extends)) {
+      this.config.extends.push('plugin:nuxt/recommended');
+    }
+    if (this.config.env) {
+      this.config.env.browser = true;
+    }
+  }
+
+  /**
+   * Nuxt と TypeScript を併用するときの設定を追加する
+   */
+  enableNuxtAndTypeScriptFeatures() {
+    if (Array.isArray(this.config.extends)) {
+      this.config.extends.push('@nuxtjs/eslint-config-typescript');
+    }
   }
 
   /**

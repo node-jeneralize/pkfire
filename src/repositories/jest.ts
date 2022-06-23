@@ -2,11 +2,17 @@ import fs from 'fs/promises';
 import path from 'path';
 import { generateJestActionsConfig } from '@/helper/ghaConfigs';
 import { GitHubActionsConfig } from '@/repositories/gha';
+import { Dependencies, Toolchain } from '@/repositories/core/toolchain';
 
 /**
  * Jest の設定や GitHubActions の情報を管轄するクラス
  */
-export class Jest {
+export class Jest implements Toolchain {
+  dependencies: Readonly<Dependencies> = {
+    always: 'jest',
+    useWithTypeScript: ['@types/jest', 'ts-node', 'ts-jest'],
+  };
+
   private shouldUseTypeScript = false;
 
   /**

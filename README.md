@@ -7,7 +7,7 @@
 
 The CLI toolchain installer for Node application developers
 
-![pkfire](https://user-images.githubusercontent.com/40014236/169387347-02a5bf2f-006c-4d2e-b9e5-06ffc8415448.gif)
+![pkfire](https://user-images.githubusercontent.com/40014236/175309582-d9471b8e-a0c7-4ca0-a424-61449a14318e.gif)
 
 # ✨ FEATURES 
 
