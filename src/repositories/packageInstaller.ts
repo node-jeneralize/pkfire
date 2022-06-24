@@ -1,4 +1,10 @@
 import { execa } from 'execa';
+import { isFileExists } from '@/helper/isFileExist';
+
+export const packageInstallerIO = {
+  execa: execa,
+  isFileExists: isFileExists,
+} as const;
 
 export class PackageInstaller {
   private readonly userSelectedPackageManager: 'npm' | 'yarn' = 'npm';
@@ -27,7 +33,32 @@ export class PackageInstaller {
   }
 
   /**
+   * パッケージのイニシャライズを実行
+   * @returns ExecaChildProcess<string> | undefined
+   */
+  async initialize() {
+    if (await packageInstallerIO.isFileExists('./package.json')) {
+      return;
+    }
+
+    const initializeCommands = {
+      npm: ['init', '-y'],
+      yarn: ['init', '-y'],
+    };
+
+    return packageInstallerIO.execa(
+      this.userSelectedPackageManager,
+      initializeCommands[this.userSelectedPackageManager],
+      {
+        encoding: 'utf8',
+        stdio: 'inherit',
+      }
+    );
+  }
+
+  /**
    * パッケージのインストールを実行
+   * @returns ExecaChildProcess<string>
    */
   async install() {
     if (this.installPackages.length === 0) {
