@@ -120,6 +120,15 @@ export const runGeneralCommandJob = async () => {
     }
   }
 
+  // フロントエンドは tsconfig.json を出さずに GitHub Actions のみ出力
+  if (
+    checkObjectContainTrue(frontend) &&
+    environment.shouldUseTypeScriptFeatures &&
+    shouldUseGitHubActions
+  ) {
+    await new TSConfigJson().generateGitHubActionsConfig(packageManager);
+  }
+
   if (toolchains.ESLint) {
     if (shouldUseGitHubActions) {
       await Promise.all([
