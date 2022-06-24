@@ -30,6 +30,10 @@ export class PackageInstaller {
    * パッケージのインストールを実行
    */
   async install() {
+    if (this.installPackages.length === 0) {
+      return;
+    }
+
     const installCommands = {
       npm: ['install', '-D', ...this.installPackages],
       yarn: ['add', '-D', ...this.installPackages],
