@@ -18,6 +18,9 @@
   "bin": {
     "pkfire": "./bin/pkfire"
   },
+  "engines": {
+    "node": "^16.0.0"
+  },
   "scripts": {
     "test": "jest",
     "typeCheck": "tsc --noEmit",
