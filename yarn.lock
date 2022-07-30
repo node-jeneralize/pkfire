@@ -2150,7 +2150,7 @@ json-stable-stringify-without-jsonify@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npmjs.org/json-stable-stringify-without-jsonify/-/json-stable-stringify-without-jsonify-1.0.1.tgz"
 
-json5@2.x, json5@^2.2.1:
+json5@^2.2.1:
   version "2.2.1"
   resolved "https://registry.npmjs.org/json5/-/json5-2.2.1.tgz"
 
@@ -2759,17 +2759,17 @@ to-regex-range@^5.0.1:
     is-number "^7.0.0"
 
 ts-jest@^28.0.1:
-  version "28.0.1"
-  resolved "https://registry.npmjs.org/ts-jest/-/ts-jest-28.0.1.tgz"
+  version "28.0.7"
+  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-28.0.7.tgz#e18757a9e44693da9980a79127e5df5a98b37ac6"
   dependencies:
     bs-logger "0.x"
     fast-json-stable-stringify "2.x"
     jest-util "^28.0.0"
-    json5 "2.x"
+    json5 "^2.2.1"
     lodash.memoize "4.x"
     make-error "1.x"
     semver "7.x"
-    yargs-parser "^20.x"
+    yargs-parser "^21.0.1"
 
 ts-node@^10.7.0:
   version "10.7.0"
@@ -2924,11 +2924,7 @@ yaml@^2.0.1:
   version "2.0.1"
   resolved "https://registry.npmjs.org/yaml/-/yaml-2.0.1.tgz"
 
-yargs-parser@^20.x:
-  version "20.2.9"
-  resolved "https://registry.npmjs.org/yargs-parser/-/yargs-parser-20.2.9.tgz"
-
-yargs-parser@^21.0.0:
+yargs-parser@^21.0.0, yargs-parser@^21.0.1:
   version "21.0.1"
   resolved "https://registry.npmjs.org/yargs-parser/-/yargs-parser-21.0.1.tgz"
 
