@@ -37,7 +37,7 @@ export class Dependabot {
     await mkdirp('.github');
 
     if (!(await isFileExists(`.github/${fileName}`))) {
-      await fs.writeFile(`.github/workflows/${fileName}`, stringifyYaml);
+      await fs.writeFile(`.github/${fileName}`, stringifyYaml);
     } else {
       // TODO: prompt で上書きしていいか確認
       // 上書きしてOKなら writeFile で書き込み
