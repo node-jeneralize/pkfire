@@ -28,7 +28,7 @@ const dependabotConfig: ConstructorParameters<typeof Dependabot>[0] = {
 export const askUsingCITools = async (): Promise<ReturnObject> => {
   const question: QuestionCollection = [
     {
-      type: 'list',
+      type: 'checkbox',
       name: 'usingCITools',
       message: 'What do you want to use CI tools?',
       choices: [
