@@ -45,7 +45,7 @@ export const generateESLintActionsConfig = (
           name: 'lint check',
           uses: 'reviewdog/action-eslint@v1',
           with: {
-            repoter: 'github-check',
+            repoter: 'github-pr-review',
             'eslint-flags': '--ext .js,.ts src',
           },
         },
