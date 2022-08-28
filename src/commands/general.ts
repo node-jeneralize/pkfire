@@ -3,10 +3,10 @@ import { askToolchains } from '@/questions/toolchains';
 import { askWhichPackageManager } from '@/questions/packageManager';
 import { PackageInstaller } from '@/repositories/packageInstaller';
 import { TSConfigJson } from '@/repositories/tsconfig';
-import { askUsingGitHubActions } from '@/questions/githubActions';
 import { PkgScriptWriter } from '@/helper/pkgScripts';
 import { checkObjectContainTrue } from '@/helper/checkObjectContainTrue';
 import { detectFrontConfigFile } from '@/questions/detectFrontConfigFile';
+import { askUsingCITools } from '@/questions/CITools';
 
 /**
  * パラメータなどの引数なしで実行したときの挙動を実行する
@@ -23,7 +23,7 @@ export const runGeneralCommandJob = async () => {
   const environment = await askUseTypeScript(tsPromptOption);
 
   const toolchains = await askToolchains();
-  const shouldUseGitHubActions = await askUsingGitHubActions();
+  const usingCITools = await askUsingCITools();
 
   //------------------------------------------------------------------------------
   // Package Installation
@@ -110,7 +110,7 @@ export const runGeneralCommandJob = async () => {
   if (environment.shouldWriteTSConfigJson) {
     const tsconfig = new TSConfigJson();
 
-    if (shouldUseGitHubActions) {
+    if (usingCITools.GitHubActions) {
       await Promise.all([
         tsconfig.generateGitHubActionsConfig(packageManager),
         tsconfig.save(),
@@ -124,13 +124,13 @@ export const runGeneralCommandJob = async () => {
   if (
     checkObjectContainTrue(frontend) &&
     environment.shouldUseTypeScriptFeatures &&
-    shouldUseGitHubActions
+    usingCITools.GitHubActions
   ) {
     await new TSConfigJson().generateGitHubActionsConfig(packageManager);
   }
 
   if (toolchains.ESLint) {
-    if (shouldUseGitHubActions) {
+    if (usingCITools.GitHubActions) {
       await Promise.all([
         toolchains.ESLint.generateGitHubActions(packageManager),
         toolchains.ESLint.save(),
@@ -145,7 +145,7 @@ export const runGeneralCommandJob = async () => {
   }
 
   if (toolchains.Jest) {
-    if (shouldUseGitHubActions) {
+    if (usingCITools.GitHubActions) {
       await Promise.all([
         toolchains.Jest.generateGitHubActions(packageManager),
         toolchains.Jest.save(),
@@ -153,6 +153,12 @@ export const runGeneralCommandJob = async () => {
     } else {
       await toolchains.Jest.save();
     }
+  }
+
+  // dependabot を使う場合は保存
+  // @TODO assignee の割当質問の増設
+  if (usingCITools.dependabot) {
+    await usingCITools.dependabot.save('dependabot.yml');
   }
 
   console.log('Done All settings!');
