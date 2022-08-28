@@ -1,6 +1,6 @@
 {
   "name": "pkfire",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "main": "dist/index.js",
   "license": "MIT",
   "description": "Node application developer toolchains installer CLI",
@@ -17,6 +17,9 @@
   },
   "bin": {
     "pkfire": "./bin/pkfire"
+  },
+  "engines": {
+    "node": "^16.0.0"
   },
   "scripts": {
     "test": "jest",
@@ -42,8 +45,8 @@
   "devDependencies": {
     "@types/eslint": "^8.4.2",
     "@types/inquirer": "^8.2.1",
-    "@types/jest": "^27.5.0",
-    "@types/node": "^17.0.31",
+    "@types/jest": "^28.1.7",
+    "@types/node": "^18.6.2",
     "@typescript-eslint/eslint-plugin": "^5.22.0",
     "@typescript-eslint/parser": "^5.22.0",
     "esbuild": "^0.14.39",
