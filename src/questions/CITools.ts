@@ -12,13 +12,15 @@ interface ReturnObject {
 
 const dependabotConfig: ConstructorParameters<typeof Dependabot>[0] = {
   version: 2,
-  updates: {
-    'package-ecosystem': 'npm',
-    directory: '/',
-    schedule: {
-      interval: 'weekly',
+  updates: [
+    {
+      'package-ecosystem': 'npm',
+      directory: '/',
+      schedule: {
+        interval: 'weekly',
+      },
     },
-  },
+  ],
 };
 
 /**

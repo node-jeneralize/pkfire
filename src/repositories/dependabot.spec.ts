@@ -5,13 +5,15 @@ import { stringify } from 'yaml';
 describe('🚓 Dependabot', () => {
   const config: ConstructorParameters<typeof Dependabot>[0] = {
     version: 3,
-    updates: {
-      'package-ecosystem': 'npm',
-      directory: '/',
-      schedule: {
-        interval: 'weekly',
+    updates: [
+      {
+        'package-ecosystem': 'npm',
+        directory: '/',
+        schedule: {
+          interval: 'weekly',
+        },
       },
-    },
+    ],
   };
 
   describe('🚓 constructor', () => {
