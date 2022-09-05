@@ -3,7 +3,7 @@ import mkdirp from 'mkdirp';
 import fs from 'fs/promises';
 import { isFileExists } from '@/helper/isFileExist';
 
-interface Updates {
+interface Update {
   'package-ecosystem': 'npm';
   directory: string;
   schedule: {
@@ -13,7 +13,7 @@ interface Updates {
 
 interface DependabotConfig {
   version: number;
-  updates: Updates;
+  updates: Update[];
 }
 
 /**
