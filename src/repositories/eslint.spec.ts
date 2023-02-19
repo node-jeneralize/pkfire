@@ -44,7 +44,7 @@ describe('🚓 ESLintRc', () => {
   });
 
   describe('🚓 enableNuxtAndTypeScriptFeatures', () => {
-    it('👮‍ 実行すると extends が設定される', () => {
+    it('👮‍ 実行すると extends が設定される. parser は 空になる', () => {
       const eslintrc = new ESLintRc();
       eslintrc.enableNuxtAndTypeScriptFeatures();
 
@@ -53,6 +53,7 @@ describe('🚓 ESLintRc', () => {
       };
 
       expect(eslintrc.config.extends).toStrictEqual(expectResults.extends);
+      expect(eslintrc.config.parser).toBe(undefined);
     });
   });
 
