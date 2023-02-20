@@ -97,6 +97,13 @@ export class ESLintRc implements Toolchain {
     if (Array.isArray(this.config.extends)) {
       this.config.extends.push('@nuxtjs/eslint-config-typescript');
     }
+
+    // parser のオプションがあると vue ファイルの検査でエラーになるので排除
+    this.config = Object.fromEntries(
+      Object.entries(this.config).filter(([key]) => {
+        return key !== 'parser';
+      })
+    );
   }
 
   /**
