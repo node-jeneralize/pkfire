@@ -68,6 +68,14 @@ export const runGeneralCommandJob = async () => {
         );
       }
     }
+
+    // Next.js と共用する場合は ESLint に設定追加
+    if (frontend.next) {
+      packageInstaller.addInstallPackage(
+        toolchains.ESLint.dependencies.useWithNextJs
+      );
+      toolchains.ESLint.enableNextFeatures();
+    }
   }
 
   if (toolchains.Prettier) {
