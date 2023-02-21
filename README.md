@@ -38,7 +38,7 @@ $ pkfire
 ```bash
 # for project maintainers
 $ yarn
-$ yarn ts-node-paths src/index.ts
+$ yarn start
 ```
 
 # 📄 LICENSE
