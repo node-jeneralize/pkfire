@@ -24,7 +24,7 @@ export class ESLintRc implements Toolchain {
       '@babel/eslint-parser',
     ],
     useWithNuxtAndTS: '@nuxtjs/eslint-config-typescript',
-    useWithNext: 'eslint-config-next'
+    useWithNextJs: 'eslint-config-next',
   };
 
   config: BaseConfig = {
