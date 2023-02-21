@@ -6,8 +6,11 @@ interface DetectedFrontendConfig {
   next: boolean;
 }
 
-type AskUseNuxtFeaturesResponse = Pick<DetectedFrontendConfig, 'nuxt'>;
-type AskUseNextFeaturesResponse = Pick<DetectedFrontendConfig, 'next'>;
+type AskUseResponse<K extends keyof DetectedFrontendConfig> = Pick<
+  DetectedFrontendConfig,
+  K
+>;
+
 /**
  * フロントエンドのコンフィグファイルが存在するかどうかを検査、質問する
  * @returns それぞれのフレームワークのサポートを入れるかどうかを返す
@@ -28,7 +31,7 @@ export const detectFrontConfigFile =
 
     if (isUses.nuxt) {
       // Nuxt のツールサポートを使うかどうか質問
-      const { nuxt } = await inquirer.prompt<AskUseNuxtFeaturesResponse>([
+      const { nuxt } = await inquirer.prompt<AskUseResponse<'nuxt'>>([
         {
           type: 'confirm',
           name: 'nuxt',
@@ -45,7 +48,7 @@ export const detectFrontConfigFile =
 
     if (isUses.next) {
       // Next のツールサポートを使うかどうか質問
-      const { next } = await inquirer.prompt<AskUseNextFeaturesResponse>([
+      const { next } = await inquirer.prompt<AskUseResponse<'next'>>([
         {
           type: 'confirm',
           name: 'next',
