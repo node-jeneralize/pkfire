@@ -24,6 +24,7 @@ export class ESLintRc implements Toolchain {
       '@babel/eslint-parser',
     ],
     useWithNuxtAndTS: '@nuxtjs/eslint-config-typescript',
+    useWithNext: 'eslint-config-next'
   };
 
   config: BaseConfig = {
@@ -104,6 +105,19 @@ export class ESLintRc implements Toolchain {
         return key !== 'parser';
       })
     );
+  }
+
+  /**
+   * Next と共用するときの設定を追加する
+   */
+  enableNextFeatures() {
+    if (Array.isArray(this.config.extends)) {
+      this.config.extends.push('next/core-web-vitals');
+    }
+
+    if (this.config.env) {
+      this.config.env.browser = true;
+    }
   }
 
   /**
