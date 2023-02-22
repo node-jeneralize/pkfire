@@ -11,7 +11,7 @@ The CLI toolchain installer for Node application developers
 
 # ✨ FEATURES 
 
-- 🖨️ Generate configrartion files
+- 🖨️ Generate configuration files
 - 💼 Install required packages automatically
 - 👷 Generate toolchain runner of GitHub Actions
 - 🛠️ Support Frontend Toolchain Plugins
