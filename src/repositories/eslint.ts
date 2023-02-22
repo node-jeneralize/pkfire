@@ -24,6 +24,7 @@ export class ESLintRc implements Toolchain {
       '@babel/eslint-parser',
     ],
     useWithNuxtAndTS: '@nuxtjs/eslint-config-typescript',
+    useWithNextJs: 'eslint-config-next',
   };
 
   config: BaseConfig = {
@@ -96,6 +97,26 @@ export class ESLintRc implements Toolchain {
   enableNuxtAndTypeScriptFeatures() {
     if (Array.isArray(this.config.extends)) {
       this.config.extends.push('@nuxtjs/eslint-config-typescript');
+    }
+
+    // parser のオプションがあると vue ファイルの検査でエラーになるので排除
+    this.config = Object.fromEntries(
+      Object.entries(this.config).filter(([key]) => {
+        return key !== 'parser';
+      })
+    );
+  }
+
+  /**
+   * Next と共用するときの設定を追加する
+   */
+  enableNextFeatures() {
+    if (Array.isArray(this.config.extends)) {
+      this.config.extends.push('next/core-web-vitals');
+    }
+
+    if (this.config.env) {
+      this.config.env.browser = true;
     }
   }
 

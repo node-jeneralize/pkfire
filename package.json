@@ -1,6 +1,6 @@
 {
   "name": "pkfire",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "main": "dist/index.js",
   "license": "MIT",
   "description": "Node application developer toolchains installer CLI",
@@ -22,6 +22,7 @@
     "node": ">=16.0.0"
   },
   "scripts": {
+    "start": "tsx src/index.ts",
     "test": "jest",
     "typeCheck": "tsc --noEmit",
     "lint:js": "eslint --ext .js,.ts src",
@@ -30,16 +31,14 @@
     "lint:code:fix": "prettier --write .",
     "lint": "npm run lint:code && npm run lint:js",
     "lint:fix": "npm run lint:code:fix && npm run lint:js:fix",
-    "ts-node-paths": "ts-node --files -r tsconfig-paths/register",
     "build": "yarn typeCheck && esbuild --minify --bundle --outdir=dist --platform=node src/index.ts",
     "prepare": "yarn build"
   },
   "dependencies": {
-    "@types/mkdirp": "^1.0.2",
     "cac": "^6.7.12",
     "execa": "^6.1.0",
     "inquirer": "^8.2.4",
-    "mkdirp": "^1.0.4",
+    "mkdirp": "^2.1.3",
     "yaml": "^2.0.1"
   },
   "devDependencies": {
@@ -57,7 +56,7 @@
     "prettier": "^2.6.2",
     "ts-jest": "^28.0.1",
     "ts-node": "^10.7.0",
-    "tsconfig-paths": "^4.0.0",
+    "tsx": "^3.12.3",
     "typescript": "^4.6.4"
   }
 }
