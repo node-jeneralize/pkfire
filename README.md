@@ -14,6 +14,7 @@ The CLI toolchain installer for Node application developers
 - 🖨️ Generate configrartion files
 - 💼 Install required packages automatically
 - 👷 Generate toolchain runner of GitHub Actions
+- 🛠️ Support Frontend Toolchain Plugins
 
 # 📦️ SUPPORT PACKAGES
 
@@ -28,11 +29,14 @@ The CLI toolchain installer for Node application developers
   - ts-jest
   - @types/jest
 
+# 🛠️ SUPPORT FRAMEWORKS
+- Nuxt.js(with js, with ts)
+- Next.js
+
 # 🧑‍💻 GET STARTED
 
 ```bash
-$ npm install -g pkfire
-$ pkfire
+$ npx pkfire
 ```
 
 ```bash
