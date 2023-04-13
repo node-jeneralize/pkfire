@@ -1,16 +1,14 @@
 import { execa } from 'execa';
 
 export class PackageInstaller {
-  private readonly userSelectedPackageManager: 'npm' | 'yarn' = 'npm';
-
   private installPackages: string[] = [];
 
   /**
-   * @param packageManager npm を通すのか yarn を通すのかを指定
+   * @param userSelectedPackageManager packageManager としてどれを使うのかを指定
    */
-  constructor(packageManager: 'npm' | 'yarn') {
-    this.userSelectedPackageManager = packageManager;
-  }
+  constructor(
+    private readonly userSelectedPackageManager: 'npm' | 'yarn' | 'pnpm'
+  ) {}
 
   /**
    * インストールする必要があるパッケージを追加する
@@ -37,6 +35,7 @@ export class PackageInstaller {
     const installCommands = {
       npm: ['install', '-D', ...this.installPackages],
       yarn: ['add', '-D', ...this.installPackages],
+      pnpm: ['add', '-D', ...this.installPackages],
     };
 
     return execa(
