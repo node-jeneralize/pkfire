@@ -1,5 +1,11 @@
 import { execa } from 'execa';
 
+export const supportPackageManagers = {
+  npm: 'npm',
+  yarn: 'yarn',
+  pnpm: 'pnpm',
+} as const;
+
 export class PackageInstaller {
   private installPackages: string[] = [];
 
@@ -7,7 +13,7 @@ export class PackageInstaller {
    * @param userSelectedPackageManager packageManager としてどれを使うのかを指定
    */
   constructor(
-    private readonly userSelectedPackageManager: 'npm' | 'yarn' | 'pnpm'
+    readonly userSelectedPackageManager: keyof typeof supportPackageManagers
   ) {}
 
   /**

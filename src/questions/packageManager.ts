@@ -1,14 +1,17 @@
 import inquirer from 'inquirer';
+import { supportPackageManagers } from '@/repositories/packageInstaller';
 
 interface PromptAnswer {
-  packageManager: 'npm' | 'yarn';
+  packageManager: keyof typeof supportPackageManagers;
 }
 
 /**
  * どのパッケージマネージャを使うかを質問する
  * @return npm か yarn のどっちか
  */
-export const askWhichPackageManager = async (): Promise<'npm' | 'yarn'> => {
+export const askWhichPackageManager = async (): Promise<
+  keyof typeof supportPackageManagers
+> => {
   const { packageManager } = await inquirer.prompt<PromptAnswer>([
     {
       type: 'list',
@@ -20,6 +23,9 @@ export const askWhichPackageManager = async (): Promise<'npm' | 'yarn'> => {
         },
         {
           name: 'yarn',
+        },
+        {
+          name: 'pnpm',
         },
       ],
     },
