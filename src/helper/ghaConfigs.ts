@@ -1,13 +1,41 @@
 import { GHAConfigDetails } from '@/repositories/gha';
+import { supportPackageManagers } from '@/repositories/packageInstaller';
 
-type PackageManager = 'npm' | 'yarn';
+type PackageManager = keyof typeof supportPackageManagers;
 
 /**
  * モジュールのインストールコマンドを出力する
  * @param usePackageManager 使うパッケージマネージャ
  */
-const generateModuleInstallCommand = (usePackageManager: PackageManager) =>
-  usePackageManager === 'npm' ? 'npm ci' : 'yarn --frozen-lockfile';
+const generateModuleInstallCommand = (
+  usePackageManager: PackageManager
+): string => {
+  const staticInstallCommands: Record<PackageManager, string> = {
+    npm: 'npm ci',
+    yarn: 'yarn --frozen-lockfile',
+    pnpm: 'pnpm i --frozen-lockfile',
+  };
+
+  return staticInstallCommands[usePackageManager];
+};
+
+/**
+ * scripts の実行コマンドを出力する
+ * @param usePackageManager 使うパッケージマネージャ
+ * @param target 動かすスクリプト
+ */
+const generateScriptRunnerCommand = (
+  usePackageManager: PackageManager,
+  target: string
+): string => {
+  const runningCommands: Record<PackageManager, string> = {
+    npm: `npm run ${target}`,
+    yarn: `yarn ${target}`,
+    pnpm: `pnpm run ${target}`,
+  };
+
+  return runningCommands[usePackageManager];
+};
 
 /**
  * ESLint を GitHub Actions で動かす用途のコンフィグ情報を吐き出す
@@ -129,10 +157,7 @@ export const generateTypeCheckActionsConfig = (
         },
         {
           name: 'run typeChecking',
-          run:
-            usePackageManager === 'npm'
-              ? 'npm run typeCheck'
-              : 'yarn typeCheck',
+          run: generateScriptRunnerCommand(usePackageManager, 'typeCheck'),
         },
       ],
     },
