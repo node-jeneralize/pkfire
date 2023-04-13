@@ -3,6 +3,7 @@ import path from 'path';
 import { generateJestActionsConfig } from '@/helper/ghaConfigs';
 import { GitHubActionsConfig } from '@/repositories/gha';
 import { Dependencies, Toolchain } from '@/repositories/core/toolchain';
+import { supportPackageManagers } from '@/repositories/packageInstaller';
 
 /**
  * Jest の設定や GitHubActions の情報を管轄するクラス
@@ -55,7 +56,9 @@ export class Jest implements Toolchain {
    * GitHubActions の設定を吐き出す
    * @param packageManager npm を使うのか yarn を使うのか
    */
-  async generateGitHubActions(packageManager: 'npm' | 'yarn') {
+  async generateGitHubActions(
+    packageManager: keyof typeof supportPackageManagers
+  ) {
     const config = generateJestActionsConfig(packageManager);
     const { save: saveActionsConfig } = new GitHubActionsConfig(config);
     await saveActionsConfig('test.yaml');
