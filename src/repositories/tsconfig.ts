@@ -1,5 +1,6 @@
 import { TSConfig } from 'pkg-types';
 import fs from 'fs/promises';
+import { supportPackageManagers } from '@/repositories/packageInstaller';
 import { isFileExists } from '@/helper/isFileExist';
 import { generateTypeCheckActionsConfig } from '@/helper/ghaConfigs';
 import { GitHubActionsConfig } from '@/repositories/gha';
@@ -52,7 +53,9 @@ export class TSConfigJson implements Toolchain {
    * typeCheck を GitHub Actions で実行するためのコンフィグを出力する
    * @param packageManager 使用するパッケージマネージャ
    */
-  async generateGitHubActionsConfig(packageManager: 'npm' | 'yarn') {
+  async generateGitHubActionsConfig(
+    packageManager: keyof typeof supportPackageManagers
+  ) {
     const config = generateTypeCheckActionsConfig(packageManager);
     const { save: saveActionsConfig } = new GitHubActionsConfig(config);
     await saveActionsConfig('typeCheck.yaml');

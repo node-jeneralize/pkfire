@@ -5,6 +5,7 @@ import { Dependencies, Toolchain } from '@/repositories/core/toolchain';
 import { isFileExists } from '@/helper/isFileExist';
 import { generateESLintActionsConfig } from '@/helper/ghaConfigs';
 import { GitHubActionsConfig } from '@/repositories/gha';
+import { supportPackageManagers } from '@/repositories/packageInstaller';
 
 type RulesRecord = Linter.RulesRecord;
 type BaseConfig = Linter.Config;
@@ -173,7 +174,9 @@ export class ESLintRc implements Toolchain {
    * ESLint の GitHub Actions の設定を生成する
    * @param packageManager 使用するパッケージマネージャ
    */
-  async generateGitHubActions(packageManager: 'npm' | 'yarn') {
+  async generateGitHubActions(
+    packageManager: keyof typeof supportPackageManagers
+  ) {
     const config = generateESLintActionsConfig(packageManager);
     const { save: saveActionsConfig } = new GitHubActionsConfig(config);
     await saveActionsConfig('lint.yaml');
